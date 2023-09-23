@@ -17,3 +17,13 @@
 .colorTitle {
    color: #2b412d;
 }
+
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+    background-color: #417f45;
+    border: none;
+}
+
+
+.p-inputswitch.p-inputswitch-checked:not(.p-disabled):hover .p-inputswitch-slider {
+    background-color: #417f45;
+}

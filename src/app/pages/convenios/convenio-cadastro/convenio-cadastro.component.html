@@ -10,7 +10,26 @@
             <div class="grid flex flex-wrap justify-content-center ">
                 <div class="col-12 md:col-6 lg:col-3">
                     <span>Descrição</span>
-                    <input type="text" name="descricao" #descricao="ngModel" [(ngModel)]="convenio.descricao" pInputText class="w-full"  [required]="true">
+                    <input type="text" name="descricao" #descricao="ngModel" [(ngModel)]="convenio.descricao" pInputText class="w-full"  [required]="true" minlength="2" maxlength="6" 
+                    [pKeyFilter]="regex.stringNumber" >
+                 
+                    <app-message [control]="descricao" error="required" 
+                    text="Descrição obrigatório..."></app-message>
+                    <app-message [control]="descricao" error="minlength" 
+                    text="Mínimo de 2 caracteres..."></app-message>
+                    <app-message [control]="descricao" error="maxlength" 
+                    text="Máximo de 6 caracteres..."></app-message>
+                </div>
+            </div>
+            <div class="flex justify-content-center">
+                <div class="flex align-items-center justify-content-center">
+                    <h5>Status</h5>
+                </div>
+               </div>
+            <div class="flex justify-content-center">
+                <div class="flex align-items-center justify-content-center">
+                    <p-inputSwitch [(ngModel)]="convenio.status" name="status" 
+                    [ngModelOptions]="{standalone: true}"></p-inputSwitch>
                 </div>
             </div>
             <div class="flex flex-wrap justify-content-center mt-4">
@@ -21,7 +40,7 @@
             <div *ngIf="salvando" class="grid flex justify-content-center mt-4">
                 <p-progressSpinner [style]="{width: '50px', heigth: '50px'}" styleClass="custom-spinner" strokeWidth="8" animation=".5s"></p-progressSpinner>
                 <div class="grid col-12 justify-content-center">
-                    <h6>Salvando aguarde...</h6>
+                    <h4>Salvando aguarde...</h4>
                 </div>
             </div>
         </form>
