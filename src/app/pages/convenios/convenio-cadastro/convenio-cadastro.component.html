@@ -1,1 +1,29 @@
-<p>convenio-cadastro works!</p>
+<main>
+    <p-card styleClass="card-adjust">
+        <div class="mb-3">
+            <span class="title colorTitle">Cadastro de Convênio</span>
+        </div>
+        <div class="flex justify-content-start mb-2">
+            <button pButton type="button" class="p-button-primary" icon="pi pi-arrow-left" pTooltip="Voltar" routerLink="/convenios" ></button>
+        </div>
+        <form #formConvenio="ngForm" (ngSubmit)="salvar(formConvenio)">
+            <div class="grid flex flex-wrap justify-content-center ">
+                <div class="col-12 md:col-6 lg:col-3">
+                    <span>Descrição</span>
+                    <input type="text" name="descricao" #descricao="ngModel" [(ngModel)]="convenio.descricao" pInputText class="w-full"  [required]="true">
+                </div>
+            </div>
+            <div class="flex flex-wrap justify-content-center mt-4">
+                <div class="col-12 md:col-6 lg:col-3">
+                    <button pButton type="submit" class="p-button-primary w-full" icon="pi pi-save" [disabled]="formConvenio.invalid || salvando " pTooltip="Salvar" label="Salvar"></button>
+                </div>
+            </div>
+            <div *ngIf="salvando" class="grid flex justify-content-center mt-4">
+                <p-progressSpinner [style]="{width: '50px', heigth: '50px'}" styleClass="custom-spinner" strokeWidth="8" animation=".5s"></p-progressSpinner>
+                <div class="grid col-12 justify-content-center">
+                    <h6>Salvando aguarde...</h6>
+                </div>
+            </div>
+        </form>
+    </p-card>
+</main>
