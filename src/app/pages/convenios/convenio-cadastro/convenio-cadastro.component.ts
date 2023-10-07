@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Convenio } from 'src/app/core/models/convenio.model';
+import { Convenios } from 'src/app/core/models/convenios.model';
 import { Regex } from 'src/app/core/validators/regex';
 import { ConveniosService } from '../convenios.service';
 
@@ -12,7 +12,7 @@ import { ConveniosService } from '../convenios.service';
 export class ConvenioCadastroComponent implements OnInit {
    regex = new Regex();
    salvando: boolean = false;
-   convenio = new Convenio();
+   convenio = new Convenios();
    idConvenio: number;
 
    constructor(
