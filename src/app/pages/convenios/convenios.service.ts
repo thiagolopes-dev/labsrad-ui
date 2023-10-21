@@ -18,7 +18,7 @@ export class ConveniosService {
   async listarConvenios(): Promise<any> {
     const response = await firstValueFrom(this.http.get(`${this.convenioUrl}`));
     const obj = response as any[];
-    this.converterStringDate(obj);
+   // this.converterStringDate(obj);
     return obj;
   }
 

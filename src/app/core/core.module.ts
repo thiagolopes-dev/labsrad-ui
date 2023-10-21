@@ -8,12 +8,14 @@ import { ExamesService } from "../pages/exames/exames.service";
 import { PacientesService } from "../pages/pacientes/pacientes.service";
 import { RelatoriosService } from "../pages/relatorios/relatorios.service";
 import { UsuariosService } from "../pages/usuarios/usuarios.service";
+import { ValidationService } from "./services/validation.service";
 
 @NgModule({
   declarations: [],
   imports: [],
   providers: [
     MessageService,
+    ValidationService,
     ExamesService,
     AtendimentosService,
     PacientesService,

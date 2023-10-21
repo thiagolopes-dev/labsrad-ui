@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { ValidationService } from 'src/app/core/services/validation.service';
 import { ConveniosService } from '../convenios.service';
 
 @Component({
@@ -13,10 +14,10 @@ import { ConveniosService } from '../convenios.service';
 export class ConveniosListaComponent implements OnInit {
 
   @ViewChild('tabela') table: Table;
-  rowPerPageTable: number[] = [10, 25, 50, 100, 200, 500];
+  rowsPerPageTable: number[] = [10, 25, 50, 100, 200, 500];
   convenios = [];
   cols: any[];
-  messagePageReport: 'Mostrando {first} a {last} de {totalRecords} registros';
+  messagePageReport = 'Mostrando {first} a {last} de {totalRecords} registros';
   items: MenuItem[];
   sinal = true;
   valorTooltip = 'Inativos';
@@ -24,7 +25,8 @@ export class ConveniosListaComponent implements OnInit {
   constructor(
     private title: Title,
     private convService: ConveniosService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private validationService: ValidationService
   ) { }
 
   ngOnInit() {
@@ -54,7 +56,7 @@ export class ConveniosListaComponent implements OnInit {
     this.convService.listarConvenios()
       .then((obj) => {
         this.convenios = obj;
-        // this.convenios = this.validationService.formataAtivoeInativo(this.convenios);
+        this.convenios = this.validationService.formataAtivoeInativo(this.convenios);
         this.spinner.hide();
       })
       .catch((erro) => {

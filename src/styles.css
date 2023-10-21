@@ -3,7 +3,7 @@
 @import "primeicons/primeicons.css";
 
 .p-button-primary {
-    background-color: #417f45;
+    background-color: #417f45 !important;
     border: none;
 }
 .p-button-primary:hover {
@@ -27,3 +27,24 @@
 .p-inputswitch.p-inputswitch-checked:not(.p-disabled):hover .p-inputswitch-slider {
     background-color: #417f45;
 }
+
+.card-adjust {
+    min-height: 89vh;
+    margin-top: 2rem;
+    margin-right: 0.625rem;
+    margin-left: 0.625rem;
+  }
+  @media screen and (max-width: 40rem) {
+  
+    .card-adjust {
+      margin-top: 7%;
+      margin-right: 0.625rem;
+      margin-left: 0.625rem;
+    }
+}
+
+.p-splitbutton .p-splitbutton-defaultbutton, .p-splitbutton.p-button-rounded>.p-splitbutton-defaultbutton.p-button, .p-splitbutton.p-button-outlined>.p-splitbutton-defaultbutton.p-button, .p-button.p-button-icon-only {
+    background-color: #417f45 !important;
+    border: none;
+}
+

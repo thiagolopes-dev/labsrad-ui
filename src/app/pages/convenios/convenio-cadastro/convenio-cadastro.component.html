@@ -10,15 +10,15 @@
             <div class="grid flex flex-wrap justify-content-center ">
                 <div class="col-12 md:col-6 lg:col-3">
                     <span>Descrição</span>
-                    <input type="text" name="descricao" #descricao="ngModel" [(ngModel)]="convenio.descricao" pInputText class="w-full"  [required]="true" minlength="2" maxlength="6" 
-                    [pKeyFilter]="regex.stringNumber" >
+                    <input type="text" name="descricao" #descricao="ngModel" [(ngModel)]="convenio.descricao" pInputText class="w-full"  [required]="true" minlength="2" maxlength="60" 
+                    [pKeyFilter]="regex.stringNumber" upperCase>
                  
                     <app-message [control]="descricao" error="required" 
                     text="Descrição obrigatório..."></app-message>
                     <app-message [control]="descricao" error="minlength" 
                     text="Mínimo de 2 caracteres..."></app-message>
                     <app-message [control]="descricao" error="maxlength" 
-                    text="Máximo de 6 caracteres..."></app-message>
+                    text="Máximo de 60 caracteres..."></app-message>
                 </div>
             </div>
             <div class="flex justify-content-center">
