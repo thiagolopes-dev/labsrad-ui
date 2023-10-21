@@ -1,3 +1,22 @@
-<p class="text-6xl">LISTA CONVENIOS</p>
+<main>
+    <p-card styleClass="card-adjust">
+        <h4>Lista de Convenios</h4>
 
-<p-button routerLink="novo" >Cadastro</p-button>
+        <div class="flex justify-content-between mb-2 ">
+            <div class="flex justify-content-start mb-2">
+                <div>
+                    <button pButton type="button" class="p-button-raised p-button-primary" icon="pi pi-plus" pTooltip="Novo" tooltipPosition="top" routerLink="/convenios/novo"></button>
+                </div>
+               <div>
+                <button pButton type="button" class="p-button-raised p-button-primary ml-2" icon="pi pi-refresh" pTooltip="Atualizar" tooltipPosition="top" (click)="refresh()" ></button>
+               </div> 
+            </div>
+            <div>
+                <p-splitButton styleClass="p-button-primary" #ua label="Opções" icon="pi pi-cog" (onClick)="ua.onDropdownButtonClick(null)" [model]="items"></p-splitButton>
+            </div>
+        </div>
+
+        <p-table></p-table>
+
+    </p-card>
+</main>

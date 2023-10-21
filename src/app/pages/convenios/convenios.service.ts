@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import * as moment from 'moment-timezone';
 import { firstValueFrom } from 'rxjs';
 import { Convenios } from 'src/app/core/models/convenios.model';
-import { environment } from 'src/environment/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +11,8 @@ export class ConveniosService {
   convenioUrl: string;
 
   constructor(private http: HttpClient) {
-    this.convenioUrl = `${environment.apiUrl}/convenios`;
-    this.convenioUrl = 'http://localhost:4200';
+    // this.convenioUrl = `${environment.apiUrl}/convenios`;
+    this.convenioUrl = 'https://65340b75e1b6f4c59046859c.mockapi.io/convenios';
   }
 
   async listarConvenios(): Promise<any> {

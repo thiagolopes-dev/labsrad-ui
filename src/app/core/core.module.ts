@@ -1,4 +1,5 @@
 import { NgModule } from "@angular/core";
+import { MessageService } from "primeng/api";
 import { AtendimentosService } from "../pages/atendimentos/atendimentos.service";
 import { ConveniosService } from "../pages/convenios/convenios.service";
 import { DashboardService } from "../pages/dashboards/dashboard.service";
@@ -12,6 +13,7 @@ import { UsuariosService } from "../pages/usuarios/usuarios.service";
   declarations: [],
   imports: [],
   providers: [
+    MessageService,
     ExamesService,
     AtendimentosService,
     PacientesService,
