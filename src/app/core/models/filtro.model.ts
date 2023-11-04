@@ -13,7 +13,7 @@ export class FiltrosPacientes {
     status: string;
 }
 
-export class FiltroAtendimentos {
+export class FiltrosAtendimentos {
     pagina: number;
     itensPorPagina: number;
     id: string;

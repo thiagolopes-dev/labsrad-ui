@@ -18,7 +18,7 @@ export class ConveniosService {
   async listarConvenios(): Promise<any> {
     const response = await firstValueFrom(this.http.get(`${this.convenioUrl}`));
     const obj = response as any[];
-   // this.converterStringDate(obj);
+   // this.converterStringParaData(obj);
     return obj;
   }
 
@@ -65,7 +65,7 @@ export class ConveniosService {
     return response;
   }
 
-  converterStringDate(obj: any[]) {
+  converterStringParaData(obj: any[]) {
     obj.forEach((element) => {
       element.datagravacao = moment(element.datagravacao, 'YYYY/MM/DD H:mm')
         .tz('America/Sao_Paulo')
