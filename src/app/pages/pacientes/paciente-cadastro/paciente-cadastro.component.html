@@ -1,3 +1,86 @@
-<p>
-  paciente-cadastro works!
-</p>
+<main>
+  <p-card styleClass="card-adjust">
+    <h4>{{ editando ? 'EDIÇÃO DE' : 'CADASTRO DE'}} PACIENTE</h4>
+    <div class="flex justify-content-start mb-2">
+      <div>
+        <button pButton type="button" class="p-button-raised p-button-primary" icon="pi pi-angle-left" pTooltip="Voltar"
+          tooltipPosition="right" routerLink="/pacientes"></button>
+      </div>
+    </div>
+    <br>
+    <form #f="ngForm" autocomplete="off" (ngSubmit)="salvar(f)">
+      <div class="grid p-fluid">
+
+        <div class="col-12 md:col-6 lg:col-3">
+          <h6><span class="obrigatorio">*</span>Cpf</h6>
+          <p-inputMask type="tel" name="cpf" mask="999.999.999-99" placeholder="000.000.000-00" unmask="true"
+            [disabled]="editando" [(ngModel)]="pacientes.cpf" #cpf="ngModel" required></p-inputMask>
+          <app-message [control]="cpf" error="required" text="Informe o Cpf"></app-message>
+        </div>
+
+        <div class="col-12 md:col-6 lg:col-3">
+          <h6><span class="obrigatorio">*</span>Nome</h6>
+          <input pInputText name="nome" type="text" [pKeyFilter]="regex.stringNumber" [(ngModel)]="pacientes.nome"
+            #nome="ngModel" required minlength="3" upperCase>
+          <app-message [control]="nome" error="required" text="Informe o Nome"></app-message>
+          <app-message [control]="nome" error="minlength"
+            text="Mínimo de {{ nome.errors?.minlength?.requiredLength }} caracteres"></app-message>
+        </div>
+
+
+        <div class="col-12 md:col-6 lg:col-3">
+          <h6>Celular</h6>
+          <p-inputMask type="tel" name="telefone" mask="(99)99999-9999" placeholder="(00)00000-0000" unmask="true"
+            [(ngModel)]="pacientes.telefone" #telefone="ngModel"></p-inputMask>
+        </div>
+
+        <div class="col-12 md:col-6 lg:col-3">
+          <h6><span class="obrigatorio">*</span>Data Nascimento</h6>
+          <p-calendar name="datanasc" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true"
+            yearRange="1910:2030" dateFormat="dd/mm/yy" [(ngModel)]="pacientes.datanasc" #datanasc="ngModel"
+            [showIcon]="true" required></p-calendar>
+          <app-message [control]="datanasc" error="required" text="Informe a Data Nascimento"></app-message>
+        </div>
+
+        <div class="col-12 md:col-6 lg:col-3">
+          <h6><span class="obrigatorio">*</span>Sexo</h6>
+          <p-dropdown styleClass="dropdown" [options]="sexos" placeholder="Selecione..." [(ngModel)]="pacientes.sexo"
+            name="pacsexo" #pacsexo="ngModel" [emptyFilterMessage]="messageDrop" [showClear]="true"
+            required></p-dropdown>
+          <app-message [control]="pacsexo" error="required" text="Informe o Sexo"></app-message>
+        </div>
+        <div class="grid col-12 flex justify-content-center mt-2">
+          <h6>Status</h6>
+        </div>
+        <br>
+        <div class="grid col-12 flex justify-content-center">
+          <p-inputSwitch [(ngModel)]="pacientes.status" [ngModelOptions]="{standalone: true}" binary="true">
+          </p-inputSwitch>
+        </div>
+
+      </div>
+      <br>
+      <div class="flex flex-wrap justify-content-center">
+        <div class="col-12 md:col-6 lg:col-4">
+          <button pButton pRipple type="submit" label="Salvar" icon="fas fa-save" [disabled]="f.invalid || salvando"
+            class="p-button-raised p-button-primary w-full"></button>
+        </div>
+        <div class="col-12 md:col-6 lg:col-4">
+          <button pButton pRipple type="button" class="p-button-outlined p-button-primary w-full" icon="fas fa-trash"
+            label="Excluir" pTooltip="Excluir" tooltipPosition="top" (click)="confirmarExclusao()"
+            [disabled]="!auth.temPermissao('D_PCTE') || !editando"></button>
+        </div>
+      </div>
+      <div *ngIf="salvando" class="grid justify-content-center mt-4">
+        <div class="grid col-12 justify-content-center">
+          <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="8"
+            animationDuration=".5s">
+          </p-progressSpinner>
+        </div>
+        <div class="grid col-12 justify-content-center">
+          <h6>Salvando aguarde...</h6>
+        </div>
+      </div>
+    </form>
+  </p-card>
+</main>
