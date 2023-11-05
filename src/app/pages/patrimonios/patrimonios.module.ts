@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { PrimeNGModule } from 'src/app/primeng.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PatrimonioCadastroComponent } from './patrimonio-cadastro/patrimonio-cadastro.component';
