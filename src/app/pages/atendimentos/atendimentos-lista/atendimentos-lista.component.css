@@ -1,0 +1,7 @@
+:host ::ng-deep
+.p-datepicker{
+  width: 300px;
+}
+.btnAtend {
+  width: 25rem;
+}

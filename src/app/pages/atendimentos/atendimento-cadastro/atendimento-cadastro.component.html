@@ -1,3 +1,240 @@
-<p>
-  atendimento-cadastro works!
-</p>
+<main>
+  <p-card styleClass="card-adjust p-mt-5 p-mx-3">
+    <h4>{{ editando ? 'EDIÇÃO DE' : 'CADASTRO DE'}} ATENDIMENTO</h4>
+    <div class="flex justify-content-start mb-2">
+      <div>
+        <button pButton type="button" class="p-button-raised" icon="pi pi-angle-left" pTooltip="Voltar"
+          tooltipPosition="right" routerLink="/atendimentos"></button>
+
+        <button pButton class="p-button-raised p-button-secondary ml-2" type="button" label="Novo Paciente"
+          icon="pi pi-user-plus" (click)="cadastrarPaciente()"></button>
+      </div>
+    </div>
+    <br>
+    <form #f="ngForm" autocomplete="off" (ngSubmit)="salvar(f)">
+      <p-tabView styleClass="tabview-custom">
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <i class="pi pi-calendar" style="margin-right: 5px;"></i>
+            <span>Atendimento</span>
+          </ng-template>
+
+          <div class="grid p-fluid">
+            <div class="col-12 md:col-6 lg:col-3">
+              <br>
+              <h6><span class="obrigatorio">*</span>Paciente</h6>
+              <p-dropdown styleClass="dropdown" name="paciente" [autoDisplayFirst]="false" #paciente="ngModel"
+                filter="true" [options]="pacientes" [virtualScroll]="true" [itemSize]="30" optionLabel="label"
+                [(ngModel)]="selectedPaciente" placeholder="Selecione..." [emptyFilterMessage]="messageDrop"
+                [showClear]="true" required></p-dropdown>
+              <app-message [control]="paciente" error="required" text="Informe o paciente"></app-message>
+            </div>
+            <div class="col-12 md:col-6 lg:col-3">
+              <br>
+              <h6><span class="obrigatorio">*</span>Forma Pagamento</h6>
+              <p-dropdown styleClass="dropdown" name="formapagamento" [autoDisplayFirst]="false"
+                #formapagamento="ngModel" [virtualScroll]="true" [itemSize]="30" filter="true"
+                [options]="formapagamentos" placeholder="Selecione..." [(ngModel)]="atendimentos.formapagamento"
+                [emptyFilterMessage]="messageDrop" [showClear]="true" required>
+              </p-dropdown>
+              <app-message [control]="formapagamento" error="required" text="Informe a forma de pagamento">
+              </app-message>
+            </div>
+            <div class="col-12 md:col-6 lg:col-3"></div>
+            <div class="col-12 md:col-6 lg:col-3"></div>
+            <div class="col-12 md:col-6 lg:col-3">
+              <button pButton class="p-button-raised p-button-secondary" type="button" label="Vincular Exames"
+                icon="pi pi-bars" (click)="prepararNovoAtendimento()"></button>
+            </div>
+
+            <div class="grid col-12 flex justify-content-center mt-2">
+              <h6>Status</h6>
+            </div>
+            <br>
+            <div class="grid col-12 flex justify-content-center">
+              <p-inputSwitch [(ngModel)]="atendimentos.status" [ngModelOptions]="{standalone: true}" binary="true">
+              </p-inputSwitch>
+            </div>
+          </div>
+
+          <!-- INICIO TABELA DE ITENS DE ATENDIMENTOS "EXAMES" -->
+          <p-table [value]="atendimentos.itensatendimento" [rows]="10" paginator="true" [scrollable]="true"
+            [rowsPerPageOptions]="[10,25,50]" [showCurrentPageReport]="true" selectionMode="single" r
+            currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
+            styleClass="p-datatable-striped">
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="btnAcoes">&nbsp;</th>
+                <th style="width: 100px;">Acesso</th>
+                <th style="width: 100px;">Exame</th>
+                <th style="width: 100px;">Convênio</th>
+                <th style="width: 100px;">Data Exame</th>
+                <th style="width: 100px;">Valor</th>
+                <th style="width: 100px;">Desconto</th>
+                <th style="width: 100px;">Total</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-itensatendimento let-rowIndex="rowIndex" let-rowData>
+              <tr [pSelectableRow]="rowData">
+                <td class="btnAcoes">
+
+                  <button pButton pRipple type="button" class="p-button-text p-button-danger " icon="fas fa-trash"
+                    label="Excluir" pTooltip="Excluir" tooltipPosition="top"
+                    (click)="removerAtendimento(rowIndex)"></button>
+                </td>
+                <td style="width: 100px;">
+                  <span class="p-column-title">Acesso:</span>
+                  {{itensatendimento.acesso}}
+                </td>
+                <td style="width: 100px;">
+                  <span class="p-column-title">Exame:</span>
+                  {{itensatendimento.descricaoexame}}
+                </td>
+                <td style="width: 100px;">
+                  <span class="p-column-title">Convênio:</span>
+                  {{itensatendimento.descricaoconvenio}}
+                </td>
+                <td style="width: 100px;">
+                  <span class="p-column-title">Data Atend:</span>
+                  {{itensatendimento.dataatendimento | date:'dd/MM/y'}}
+                </td>
+                <td style="width: 100px;">
+                  <span class="p-column-title">Preço:</span>
+                  {{itensatendimento.preco | currency: 'R$'}}
+                </td>
+                <td style="width: 100px;">
+                  <span class="p-column-title">Desconto:</span>
+                  {{itensatendimento.desconto | currency: 'R$'}}
+                </td>
+                <td style="width: 100px;">
+                  <span class="p-column-title">Total:</span>
+                  {{itensatendimento.total | currency: 'R$'}}
+                </td>
+              </tr>
+              <div id="linha-horizontal"></div>
+            </ng-template>
+          </p-table>
+          <!-- FIM TABELA DE ITENS DE ATENDIMENTOS "EXAMES" -->
+        </p-tabPanel>
+      </p-tabView>
+      <br>
+
+      <div class="flex flex-wrap justify-content-center">
+        <div class="col-12 md:col-6 lg:col-3">
+          <button pButton pRipple type="submit" label="Salvar" icon="fas fa-save"
+            [disabled]="f.invalid || atendimentos.itensatendimento.length === 0 || salvando"
+            class="p-button-raised p-button-success w-full"></button>
+        </div>
+      </div>
+      <div *ngIf="salvando" class="grid justify-content-center mt-4">
+        <div class="grid col-12 justify-content-center">
+          <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="8"
+            animationDuration=".5s">
+          </p-progressSpinner>
+        </div>
+        <div class="grid col-12 justify-content-center">
+          <h6>Salvando aguarde...</h6>
+        </div>
+      </div>
+    </form>
+  </p-card>
+
+  <p-dialog header="EXAMES" styleClass="mydialog" [baseZIndex]="10000" [(visible)]="exibirForm" modal="modal"
+    *ngIf="itensatendimento" closeOnEscape="true" dismissableMask="true">
+    <form #frmItens="ngForm" autocomplete="off" (ngSubmit)="confirmarAtendimento(frmItens)">
+      <div class="grid mt-4">
+        <div class="col-12 md:col-6">
+          <h6><span class="obrigatorio">*</span>Convênio</h6>
+          <p-dropdown styleClass="dropdown" name="convenioSelecionado" filter="true" [autoDisplayFirst]="false"
+            [options]="convenios" [(ngModel)]="itensatendimento.idconvenio" (onChange)="carregarExames()"
+            [showClear]="true" [emptyFilterMessage]="messageDrop" placeholder="Selecione..." required>
+          </p-dropdown>
+        </div>
+        <div class="col-12 md:col-6 ">
+          <h6><span class="obrigatorio">*</span>Exames</h6>
+          <p-dropdown styleClass="dropdown" name="exames" filter="true" [autoDisplayFirst]="false" [options]="exames"
+            [(ngModel)]="itensatendimento.idexame" [disabled]="!itensatendimento.idconvenio" [showClear]="true"
+            [emptyFilterMessage]="messageDrop" appendTo="body" placeholder="Selecione..." required>
+          </p-dropdown>
+
+        </div>
+        <div class="col-12 md:col-6 ">
+          <br>
+          <h6>Desconto</h6>
+          <p-inputNumber name="desconto" [pKeyFilter]="regex.number" [(ngModel)]="itensatendimento.desconto"
+            #desconto="ngModel" prefix="R$ " mode="decimal" [minFractionDigits]="2" currency="BRL" locale="pt-BR"
+            placeholder="R$ 0.00">
+          </p-inputNumber>
+        </div>
+      </div>
+      <div class="grid flex flex-wrap justify-content-center mt-5">
+        <div class="col-12 md:col-6">
+          <button pButton pRipple type="submit" label="Confirmar" icon="fas fa-save" [disabled]="frmItens.invalid"
+            class="p-button-raised p-button-success w-full"></button>
+        </div>
+      </div>
+      <br>
+      <!-- <p-footer>
+        <div class="grid justify-content-center">
+          <div class="col-12 md:col-6">
+            <button pButton pRipple type="submit" label="Confirmar" style="margin-top:210px" icon="fas fa-save"
+              [disabled]="frmItens.invalid" class="p-button-raised p-button-success w-full"></button>
+          </div>
+        </div>
+      </p-footer> -->
+    </form>
+  </p-dialog>
+
+
+  <p-dialog header="CADASTRO DE PACIENTE" styleClass="mydialog" [baseZIndex]="10000" [(visible)]="exibirFormPaciente"
+    modal="modal" *ngIf="pac" closeOnEscape="true" dismissableMask="true">
+    <form #f="ngForm" autocomplete="off" (ngSubmit)="salvarPaciente(f)">
+      <div class="grid p-fluid mt-5">
+        <div class="col-12 md:col-6 lg:col-3">
+          <h6><span class="obrigatorio">*</span>Cpf</h6>
+          <p-inputMask type="tel" name="cpf" mask="999.999.999-99" placeholder="000.000.000-00" unmask="true"
+            [disabled]="editando" [(ngModel)]="pac.cpf" #cpf="ngModel" required></p-inputMask>
+          <app-message [control]="cpf" error="required" text="Informe o Cpf"></app-message>
+        </div>
+
+        <div class="col-12 md:col-6 lg:col-3">
+          <h6><span class="obrigatorio">*</span>Nome</h6>
+          <input pInputText name="nome" type="text" [pKeyFilter]="regex.stringNumber" [(ngModel)]="pac.nome"
+            #nome="ngModel" required minlength="3" required upperCase>
+          <app-message [control]="nome" error="required" text="Informe o Nome"></app-message>
+          <app-message [control]="nome" error="minlength"
+            text="Mínimo de {{ nome.errors?.minlength?.requiredLength }} caracteres"></app-message>
+        </div>
+
+
+        <div class="col-12 md:col-6 lg:col-3">
+          <h6>Telefone</h6>
+          <p-inputMask type="tel" name="telefone" mask="(99)99999-9999" placeholder="(00)00000-0000" unmask="true"
+            [(ngModel)]="pac.telefone" #telefone="ngModel"></p-inputMask>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+          <h6><span class="obrigatorio">*</span>Data Nascimento</h6>
+          <p-calendar name="datanasc" baseZIndex="99999" appendTo="body" showButtonBar="true" [monthNavigator]="true"
+            [yearNavigator]="true" yearRange="1910:2030" dateFormat="dd/mm/yy" [(ngModel)]="pac.datanasc"
+            #datanasc="ngModel" [showIcon]="true" required></p-calendar>
+          <app-message [control]="datanasc" error="required" text="Informe a Data Nascimento"></app-message>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+          <br>
+          <h6><span class="obrigatorio">*</span>Sexo</h6>
+          <p-dropdown styleClass="dropdown" name="sexo" #sexo="ngModel" [autoDisplayFirst]="false" [options]="sexos"
+            [(ngModel)]="pac.sexo" [emptyFilterMessage]="messageDrop" [showClear]="true" required></p-dropdown>
+          <app-message [control]="sexo" error="required" text="Informe o Sexo"></app-message>
+        </div>
+      </div>
+      <p-footer>
+        <div class="grid justify-content-center">
+          <div class="col-12 md:col-6">
+            <button pButton pRipple type="submit" [disabled]="f.invalid" label="Confirmar" style="margin-top:20px"
+              icon="fas fa-save" class="p-button-raised p-button-success w-full"></button>
+          </div>
+        </div>
+      </p-footer>
+    </form>
+  </p-dialog>
+</main>

@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-
-import { SharedModule } from 'src/app/shared/shared.module';
 import { PrimeNGModule } from './../../primeng.module';
+
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { AtendimentoCadastroComponent } from './atendimento-cadastro/atendimento-cadastro.component';
 import { AtendimentosListaComponent } from './atendimentos-lista/atendimentos-lista.component';
 import { AtendimentosRountingModule } from './atendimentos.routing';
@@ -14,7 +15,8 @@ import { AtendimentosRountingModule } from './atendimentos.routing';
   imports: [
     PrimeNGModule,
     AtendimentosRountingModule,
-  //  NgxMaskModule.forChild(),
+    NgxMaskDirective,
+    NgxMaskPipe,
     SharedModule
   ],
 

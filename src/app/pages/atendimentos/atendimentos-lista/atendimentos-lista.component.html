@@ -1,3 +1,219 @@
-<p>
-  atendimentos-lista works!
-</p>
+<main>
+  <p-card styleClass="card-adjust mt-5 mx-3">
+    <h4>Atendimentos</h4>
+    <div class="flex justify-content-between mb-2">
+      <div class="flex justify-content-start mb-2">
+        <div>
+          <button pButton pRipple type="button" class="p-button-raised p-button-primary" icon="pi pi-plus"
+            pTooltip="Novo" tooltipPosition="top" routerLink="/atendimentos/novo"
+            [disabled]="!auth.temPermissao('C_ATEND')"></button>
+        </div>
+        <div>
+          <button pButton pRipple type="button" class="p-button-raised ml-2" pTooltip="Atualizar" tooltipPosition="top"
+            icon="pi pi-refresh" (click)="refresh()"></button>
+        </div>
+      </div>
+      <div>
+        <p-splitButton styleClass="p-button-primary" #ua label="Opções" icon="pi pi-cog"
+          (onClick)="ua.onDropdownButtonClick(null)" [model]="items"></p-splitButton>
+      </div>
+    </div>
+
+    <p-table #tabela styleClass="p-datatable-striped p-datatable-gridlines" [columns]="cols" [value]="atendimentos"
+      [rowsPerPageOptions]="rowsPerPageTable" [rowHover]="true" [showCurrentPageReport]="true"
+      (onLazyLoad)="changePage($event)" selectionMode="single" [(selection)]="selectedAtendimento"
+      [reorderableColumns]="true" [rows]="filtro.itensPorPagina" [lazy]="true" [totalRecords]="totalRegistros"
+      responsiveLayout="scroll">
+
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th class="btnAcoes">&nbsp;</th>
+          <th *ngFor="let cols of columns" [ngStyle]="{'min-width': cols.width}">
+            {{cols.header}}
+          </th>
+          <th style="min-width: 150px;">Status</th>
+        </tr>
+        <tr>
+          <th class="btnAcoes">&nbsp;</th>
+          <th *ngFor="let cols of columns; let i = index" [ngStyle]="{'min-width': cols.width}">
+            <form #formFiltro="ngForm" autocomplete="off">
+              <div *ngIf="cols.type !== 'date'" class="flex p-2" [ngStyle]="{'min-width': cols.width}">
+                <input pInputText class="p-text-nowrap p-text-truncate mr-2 w-full" placeholder="Pesquisar" type="text"
+                  name="pesquisa{{i}}" [(ngModel)]="cols.qty" validateQuantity #qtyInput (keyup)="search(cols)"
+                  (blur)="applySearch(cols)" pTooltip="Pesquisa nessa coluna" tooltipPosition="top">
+              </div>
+              <div *ngIf="cols.type === 'date' && cols.field === 'datanasc'" class="flex p-2"
+                [ngStyle]="{'min-width': cols.width}">
+                <p-overlayPanel #dataNasc>
+                  <ng-template pTemplate>
+                    <div class="grid flex justify-content-center align-items-center">
+                      <div class="col-1">
+                        <span class="spanDeAte">De</span>
+                      </div>
+                      <div class="col-5">
+                        <input pInputText matInput mask="d0/M0/0000" placeholder="00/00/0000" name="dtnascde"
+                          (keyup)="searchData('datanascde')" (blur)="searchData('datanascde')" type="tel" class="w-full"
+                          [dropSpecialCharacters]="false" [(ngModel)]="datanascde" #dtnascde="ngModel" minlength="10" />
+                        <app-message [control]="dtnascde" error="minlength" text="Digite uma data completa">
+                        </app-message>
+                      </div>
+                      <div class="col-1">
+                        <span class="spanDeAte">Até</span>
+                      </div>
+                      <div class="col-5">
+                        <input pInputText matInput mask="d0/M0/0000" placeholder="00/00/0000" name="dtnascate"
+                          (keyup)="searchData('datanascate')" (blur)="searchData('datanascate')" type="tel"
+                          class="w-full" [(ngModel)]="datanascate" [dropSpecialCharacters]="false" #dtnascate="ngModel"
+                          minlength="10" />
+                        <app-message [control]="dtnascate" error="minlength" text="Digite uma data completa">
+                        </app-message>
+                      </div>
+                    </div>
+                    <div class="grid flex justify-content-end align-items-center mt-2 mr-1">
+                      <button pButton pRipple type="button" label="Limpar Filtro" class="p-button-raised"
+                        icon="fa-solid fa-filter" (click)="limparData('dataNasc')"></button>
+                    </div>
+                  </ng-template>
+                </p-overlayPanel>
+                <button pButton pRipple type="button" label="Pesquisar"
+                  [ngClass]="(datanascde || datanascate) ? null : 'p-button-text'" class="p-button-raised  w-full"
+                  (click)="dataNasc.toggle($event)"></button>
+              </div>
+
+              <div *ngIf="cols.type === 'date' && cols.field === 'datalancamento'" class="flex p-2"
+                [ngStyle]="{'min-width': cols.width}">
+                <p-overlayPanel #dataLancamento>
+                  <ng-template pTemplate>
+                    <div class="grid flex justify-content-center align-items-center">
+                      <div class="col-1">
+                        <span class="spanDeAte">De</span>
+                      </div>
+                      <div class="col-5">
+                        <input pInputText matInput mask="d0/M0/0000" placeholder="00/00/0000" name="dtlancamentode"
+                          (keyup)="searchData('datalancamentode')" (blur)="searchData('datalancamentode')" type="tel"
+                          class="w-full" [dropSpecialCharacters]="false" [(ngModel)]="datalancamentode"
+                          #dtlancamentode="ngModel" minlength="10" />
+                        <app-message [control]="dtlancamentode" error="minlength" text="Digite uma data completa">
+                        </app-message>
+                      </div>
+                      <div class="col-1">
+                        <span class="spanDeAte">Até</span>
+                      </div>
+                      <div class="col-5">
+                        <input pInputText matInput mask="d0/M0/0000" placeholder="00/00/0000" name="dtlancamentoate"
+                          (keyup)="searchData('datalancamentoate')" (blur)="searchData('datalancamentoate')" type="tel"
+                          class="w-full" [(ngModel)]="datalancamentoate" [dropSpecialCharacters]="false"
+                          #dtlancamentoate="ngModel" minlength="10" />
+                        <app-message [control]="dtlancamentoate" error="minlength" text="Digite uma data completa">
+                        </app-message>
+                      </div>
+                    </div>
+                    <div class="grid flex justify-content-end align-items-center mt-2 mr-1">
+                      <button pButton pRipple type="button" label="Limpar Filtro" class="p-button-raised"
+                        icon="fa-solid fa-filter" (click)="limparData('dataLancamento')"></button>
+                    </div>
+                  </ng-template>
+                </p-overlayPanel>
+                <button pButton pRipple type="button" label="Pesquisar"
+                  [ngClass]="(datalancamentode || datalancamentoate) ? null : 'p-button-text'"
+                  class="p-button-raised  w-full" (click)="dataLancamento.toggle($event)"></button>
+              </div>
+            </form>
+          </th>
+          <th>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-atendimentos let-columns="columns" let-rowData let-expanded="expanded">
+        <tr [pSelectableRow]="rowData">
+
+          <td class="btnAcoes">
+            <button pButton pRipple type="button" class="p-button-text p-button-primary ml-1" icon="fas fa-pen"
+              pTooltip="Editar" tooltipPosition="top" [disabled]="!auth.temPermissao('U_ATEND')"
+              [routerLink]="['/atendimentos', atendimentos.id]"></button>
+
+            <button pButton class="p-button-text p-button-help ml-2" icon="pi pi-search" pTooltip="Exames"
+              tooltipPosition="top" (click)="showItens(atendimentos.id)"></button>
+
+            <button pButton pRipple type="button" class="p-button-text p-button-warning p-button-info ml-2"
+              icon="pi pi-print" pTooltip="Impressão" tooltipPosition="top"
+              (click)="gerarAtendimento(atendimentos)"></button>
+          </td>
+
+          <td *ngFor="let cols of columns" [ngStyle]="{'min-width': cols.width}"
+            pTooltip="{{rowData[cols.field] &&  cols.data ? (rowData[cols.field] | date: 'dd/MM/yyyy H:mm') :  rowData[cols.field]}}"
+            tooltipPosition="top">
+            <span class="p-column-title">{{cols.header}}:</span>
+            {{ cols.data ? (rowData[cols.field]| date : cols.format) : rowData[cols.field]}}
+          </td>
+          <td>
+            {{atendimentos.status ? 'Ativo' : 'Inativo'}}
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="10">
+            <p class="emptyMessage">Nenhum registro encontrado...</p>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="summary">
+        <div class="flex flex-wrap justify-content-between flex-wrap card-container purple-container"
+          (mouseenter)="verifyFocus()">
+          <div class="col-12 md:col-4 lg:col-5 flex align-items-center justify-content-start"
+            (mouseenter)="verifyFocus()">
+            <button pButton pRipple type="button" class="p-button-raised p-button-primary" (mouseenter)="verifyFocus()"
+              [icon]="blockBtnFilter ? 'pi pi-filter-slash' : 'pi pi-filter'" #buttonFilter label="Limpar Filtros"
+              (click)="onClear()" [disabled]="blockBtnFilter"></button>
+          </div>
+          <div class="col-12 md:col-8 lg:col-7 flex flex-wrap align-items-center justify-content-end">
+            <div class="flex col-12 md:col-6 lg:col-5 justify-content-end">
+              <span class="currentPageTemplate">Página {{filtro.pagina + 1}} de {{totalPages}} ({{totalRegistros}}
+                registros)</span>
+            </div>
+            <div class="flex justify-content-end">
+              <p-paginator #paginator [rows]="filtro.itensPorPagina" [totalRecords]="totalRegistros"
+                [rowsPerPageOptions]="rowsPerPageTable" (onPageChange)="changePage($event)"></p-paginator>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-table>
+
+
+    <!-- DIALOG EXAMES -->
+    <p-dialog header="Exames Atendimento" [(visible)]="displayExames" [modal]="true" styleClass="mydialog"
+      [baseZIndex]="10000">
+      <p-table [value]="itensAtend" [columns]="colsItens">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let colsItens of columns" [ngStyle]="{'min-width': colsItens.width}">
+              {{colsItens.header}}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-itens let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let colsItens of columns" [ngStyle]="{'min-width': colsItens.width}">
+              <span class="p-column-title">{{colsItens.header}}:</span>
+              {{
+              colsItens.currency ? (rowData[colsItens.field]| currency : colsItens.format): rowData[colsItens.field]
+              &&
+              colsItens.data ? (rowData[colsItens.field]| date : colsItens.format) : rowData[colsItens.field]}}
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+            <td colspan="6">
+              <p class="emptyMessage">Nenhum registro encontrado...</p>
+            </td>
+          </tr>
+        </ng-template>
+        <p-footer></p-footer>
+      </p-table>
+    </p-dialog>
+  </p-card>
+</main>
