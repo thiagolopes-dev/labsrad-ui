@@ -446,11 +446,6 @@ p-inputnumber,
   padding-left: 0.3125rem;
 }
 
-/* .p-datatable.p-datatable-striped .p-datatable-tbody>tr:nth-child(even).p-highlight {
-    background: #b4cff1;
-    color: #1d4ed8;
-} */
-
 .p-datatable .p-datatable-tbody>tr.p-highlight {
   background: #99c6ff;
   color: #2457e5;

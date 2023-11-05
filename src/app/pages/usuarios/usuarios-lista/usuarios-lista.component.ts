@@ -1,6 +1,6 @@
-import { NgxSpinnerService } from 'ngx-spinner';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 import { MenuItem, PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -72,11 +72,11 @@ export class UsuariosListaComponent implements OnInit {
     ];
 
     this.cols = [
-      { field: 'id', header: 'Código', width: '100px', type: 'numeric' },
+      { field: 'id', header: 'Código', width: '130px', type: 'numeric' },
       { field: 'nome', header: 'Nome', width: '200px' , type: 'text'},
-      { field: 'email', header: 'E-mail', width: '200px', type: 'text' },
+      { field: 'email', header: 'E-mail', width: '300px', type: 'text' },
       { field: 'datagravacao', header: 'Data Alteração', width: '200px', type: 'date', data: true, format: `dd/MM/yyyy H:mm` },
-      { field: 'emailusuario', header: 'Usuário Alteração', width: '220px', type: 'text' },
+      { field: 'emailusuario', header: 'Usuário Alteração', width: '300px', type: 'text' },
       { field: 'statusformatado', header: 'Status', width: '100px', type: 'text' }
     ];
     this._selectedColumns = this.cols;

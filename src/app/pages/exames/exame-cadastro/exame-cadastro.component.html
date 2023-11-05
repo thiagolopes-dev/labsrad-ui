@@ -1,3 +1,134 @@
-<p>
-  exame-cadastro works!
-</p>
+<main>
+  <p-card styleClass="card-adjust">
+    <h4>{{ editando ? 'EDIÇÃO DE' : 'CADASTRO DE'}} EXAMES</h4>
+    <div class="flex justify-content-start mb-2">
+      <div>
+        <button pButton pRipple type="button" class="p-button-raised" icon="pi pi-caret-left" pTooltip="Voltar"
+          tooltipPosition="top" routerLink="/exames"></button>
+      </div>
+    </div>
+    <br>
+    <form #f="ngForm" autocomplete="off" (ngSubmit)="salvar(f)">
+      <div class="grid  justify-content-center">
+        <div class="col-12 md:col-6 lg:col-4">
+          <h6><span class="obrigatorio">*</span>Descrição Exame</h6>
+          <input class="w-full" pInputText name="descricao" type="text" [pKeyFilter]="regex.stringNumber"
+            [(ngModel)]="exames.descricao" #descricao="ngModel" required minlength="3" upperCase>
+          <app-message [control]="descricao" error="required" text="Informe a Descrição"></app-message>
+          <app-message [control]="descricao" error="minlength"
+            text="Mínimo de {{ descricao.errors?.minlength?.requiredLength }} caracteres"></app-message>
+        </div>
+      </div>
+      <div class="flex justify-content-center">
+        <div class="flex align-items-center justify-content-center">
+          <h6>Status</h6>
+        </div>
+      </div>
+      <div class="flex justify-content-center">
+        <div class="flex align-items-center justify-content-center">
+          <p-inputSwitch [(ngModel)]="exames.status" name="status" [ngModelOptions]="{standalone: true}" binary="true">
+          </p-inputSwitch>
+        </div>
+      </div>
+      <br>
+      <p-footer>
+        <div class="grid justify-content-center">
+          <div class="col-12 md:col-6 lg:col-3">
+            <button pButton class="p-button-raised p-button-secondary w-full" type="button" label="Vincular Convênios"
+              icon="pi pi-plus-circle" (click)="prepararNovo()"></button>
+          </div>
+        </div>
+      </p-footer>
+      <div class="col-12">
+        <p-divider align="center">
+          <span class="p-tag">Lista de Convênios</span>
+        </p-divider>
+      </div>
+      <p-table [value]="exames.examesconvenios" [scrollable]="true" [rows]="10" paginator="true" [columns]="colsItens"
+        [showCurrentPageReport]="true" [rowHover]="true" selectionMode="single" styleClass="p-datatable-striped"
+        selectionMode="single" currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas" r>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th class="btnAcoes">&nbsp;</th>
+            <th *ngFor="let colsItens of columns" [ngStyle]="{'width': colsItens.width}">
+              {{colsItens.header}}
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-itens let-columns="columns" let-rowData let-rowIndex="rowIndex">
+          <tr [pSelectableRow]="rowData">
+            <td class="btnAcoes">
+              <button pButton pRipple type="button" class="p-button-text p-button-danger " icon="fas fa-trash"
+                label="Excluir" pTooltip="Excluir" tooltipPosition="top" (click)="yesDelete(rowIndex)"></button>
+            </td>
+            <td *ngFor="let colsItens of columns" [ngStyle]="{'width': colsItens.width}">
+              <span class="p-column-title">{{colsItens.header}}:</span>
+              {{
+              colsItens.currency ? (rowData[colsItens.field]| currency : colsItens.format): rowData[colsItens.field]
+              &&
+              colsItens.data ? (rowData[colsItens.field]| date : colsItens.format) : rowData[colsItens.field]}}
+            </td>
+          </tr>
+          <div id="linha-horizontal"></div>
+        </ng-template>
+      </p-table>
+
+      <div class="flex flex-wrap justify-content-center">
+        <div class="col-12 md:col-6 lg:col-3">
+          <button pButton pRipple type="submit" label="Salvar" icon="fas fa-save"
+            [disabled]="f.invalid || exames.examesconvenios.length === 0 || salvando"
+            class="p-button-raised p-button-primary w-full"></button>
+        </div>
+        <div class="col-12 md:col-6 lg:col-3">
+          <button pButton pRipple type="button" class="p-button-outlined p-button-primary w-full" icon="fas fa-trash"
+            pTooltip="Excluir" tooltipPosition="top" [disabled]="!auth.temPermissao('D_EXME') || !editando"
+            (click)="confirmarExclusao()" label="Excluir"></button>
+        </div>
+      </div>
+      <div *ngIf="salvando" class="grid justify-content-center mt-4">
+        <div class="grid col-12 justify-content-center">
+          <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="8"
+            animationDuration=".5s">
+          </p-progressSpinner>
+        </div>
+        <div class="grid col-12 justify-content-center">
+          <h6>Salvando aguarde...</h6>
+        </div>
+      </div>
+    </form>
+  </p-card>
+
+  <p-dialog header="VINCULAR EXAME" styleClass="mydialog" modal="modal" [(visible)]="exibirForm" [baseZIndex]="10000"
+    *ngIf="convexame">
+    <br>
+    <form #frmItens="ngForm" autocomplete="off" (ngSubmit)="confirmar(frmItens)">
+      <div class="grid">
+        <div class="col-12 md:col-6 lg:col-6">
+          <h6><span class="obrigatorio">*</span>Convênio</h6>
+          <p-dropdown styleClass="dropdown" name="convenio" filter="true" [autoDisplayFirst]="false"
+            [options]="convenios" [(ngModel)]="convexame.idconvenio" #convenio="ngModel" [showClear]="true"
+            placeholder="Selecione..." [emptyFilterMessage]="messageDrop" required>
+          </p-dropdown>
+          <app-message [control]="convenio" error="required" text="Informe o convênio"></app-message>
+        </div>
+
+        <div class="col-12 md:col-6 lg:col-6">
+          <h6><span class="obrigatorio">*</span>Preço</h6>
+          <p-inputNumber name="precout" [pKeyFilter]="regex.number" [(ngModel)]="convexame.preco" #preco="ngModel"
+            prefix="R$ " mode="decimal" [minFractionDigits]="2" currency="BRL" locale="pt-BR" placeholder="R$ 0.00">
+          </p-inputNumber>
+          <app-message [control]="preco" error="required" text="Informe o Preço"></app-message>
+        </div>
+      </div>
+      <p-footer>
+        <div class="grid  justify-content-center">
+          <div class="col-12 md:col-6 lg:col-4 mt-5">
+            <button pButton pRipple type="submit" label="Confirmar" icon="fas fa-save" [disabled]="frmItens.invalid"
+              class="p-button-raised p-button-primary w-full mt-5"></button>
+          </div>
+        </div>
+      </p-footer>
+    </form>
+  </p-dialog>
+</main>
