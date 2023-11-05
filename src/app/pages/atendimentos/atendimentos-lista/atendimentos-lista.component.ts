@@ -1,23 +1,22 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
+import * as moment from 'moment-timezone';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { FilterService, LazyLoadEvent, MenuItem, PrimeNGConfig } from 'primeng/api';
+import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
+import { FiltrosAtendimentos } from 'src/app/core/models/filtro.model';
+import { ItensAtendimentos } from 'src/app/core/models/itensAtendimentos.model';
 import { Usuarios } from 'src/app/core/models/usuarios.model';
+import { ValidationService } from 'src/app/core/services/validations.service';
+import { Regex } from 'src/app/core/validators/regex';
 import { AuthService } from '../../seguranca/auth.service';
 import { UsuariosService } from '../../usuarios/usuarios.service';
 import { FiltroAtendimentoService } from './../../../core/services/filtros/filtro-atendimento.service';
 import { RelatoriosService } from './../../relatorios/relatorios.service';
 import { AtendimentosService } from './../atendimentos.service';
-
-import * as moment from 'moment';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { Paginator } from 'primeng/paginator';
-import { FiltrosAtendimentos } from 'src/app/core/models/filtro.model';
-import { ItensAtendimentos } from 'src/app/core/models/itensAtendimentos.model';
-import { ValidationService } from 'src/app/core/services/validations.service';
-import { Regex } from 'src/app/core/validators/regex';
 
 
 @Component({
