@@ -1,3 +1,139 @@
-<p>
-  usuario-cadastro works!
-</p>
+<main>
+  <p-card styleClass="card-adjust">
+    <h4>{{ editando ? 'EDIÇÃO DE' : 'CADASTRO DE'}} USUÁRIO</h4>
+    <div class="flex justify-content-start mb-2">
+      <div>
+        <button pButton pRipple type="button" class="p-button-raised" icon="pi pi-angle-left" pTooltip="Voltar"
+          tooltipPosition="right" routerLink="/usuarios">
+        </button>
+      </div>
+    </div>
+    <br>
+    <form #f="ngForm" autocomplete="off" (ngSubmit)="salvar(f)">
+      <p-tabView styleClass="tabview-custom">
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <i class="pi pi-id-card" style="margin-right: 0.3125rem;"></i>
+            <span>Info</span>
+          </ng-template>
+          <div class="grid">
+            <div class="col-12 md:col-6 lg:col-3">
+              <h6>*Nome</h6>
+              <input pInputText name="nome" inputmode="text" [pKeyFilter]="regex.string" [(ngModel)]="usuario.nome"
+                #nome="ngModel" maxlength="30" required upperCase>
+              <app-message [control]="nome" error="required" text="Informe o nome"></app-message>
+            </div>
+            <div class="col-12 md:col-6 lg:col-3">
+              <h6>E-mail</h6>
+              <input pInputText name="email" type="email" pKeyFilter="email" email maxlength="40"
+                [(ngModel)]="usuario.email" #email="ngModel" autocomplete="new-email" required email>
+              <app-message [control]="email" error="required" text="Informe um e-mail!"></app-message>
+              <app-message [control]="email" error="email" text="Informe um e-mail válido"></app-message>
+            </div>
+            <div class="col-12 md:col-6 lg:col-3">
+              <h6>Senha</h6>
+              <input pPassword type="password" name="senha" promptLabel="Digite sua senha" weakLabel="Fraco" readonly
+                onfocus="this.removeAttribute('readonly');" mediumLabel="Médio " strongLabel="Forte"
+                [(ngModel)]="usuario.senha" #senha="ngModel" minlength="6" maxlength="60" autocapitalize="off"
+                autocomplete="new-password" required #pass>
+              <span (click)="pass.type = pass.type =='password'?'text':'password'" class="pi pi-eye-slash field-icon"
+                [ngClass]="(pass.type =='password')?'pi-eye-slash':'pi pi-eye'"></span>
+              <app-message [control]="senha" error="required" text="Informe uma senha"></app-message>
+              <app-message [control]="senha" error="minlength" text="Mínimo de 6 caracteres"></app-message>
+            </div>
+            <div class="col-12 md:col-6 lg:col-3">
+              <h6>*Confirmar Senha</h6>
+              <input pInputText name="csenha" type="password" maxlength="60" ngValidateEqual="senha" #csenha="ngModel"
+                minlength="6" [(ngModel)]="usuario.csenha" required #cpass>
+              <span (click)="cpass.type = cpass.type =='password'?'text':'password'" class="pi pi-eye-slash field-icon"
+                [ngClass]="(cpass.type =='password')?'pi-eye-slash':'pi pi-eye'"></span>
+              <app-message [control]="csenha" error="required" text="Repita a senha"></app-message>
+              <app-message [control]="csenha" error="minlength" text="Mínimo de 6 caracteres"></app-message>
+              <div *ngIf="(csenha.dirty || csenha.touched) && csenha.invalid">
+                <p class="p-message p-message-error" role="alert" *ngIf="csenha.hasError('notEqual') && senha.valid">
+                  As senhas não correspondem...
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-content-center flex-wrap card-container yellow-container">
+            <div class="flex flex-column flex align-items-center justify-content-center">
+              <div>
+                <h6>Status</h6>
+              </div>
+              <div>
+                <p-inputSwitch [(ngModel)]="usuario.status" [ngModelOptions]="{standalone: true}" binary="true">
+                </p-inputSwitch>
+              </div>
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <i class="pi pi-map-marker" style="margin-right: 0.3125rem;"></i>
+            <span>Permissões</span>
+          </ng-template>
+          <div>
+            <p-tree [value]="permission" [filter]="true" selectionMode="checkbox" [(selection)]="selectedPermission">
+            </p-tree>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <i class="pi pi-briefcase" style="margin-right: 5px;"></i>
+            <span>Empresas</span>
+          </ng-template>
+
+          <p-table [columns]="colsEmpresa" [value]="empresas" [scrollable]="true" [rows]="15" paginator="true"
+            [rowsPerPageOptions]="rowsPerPageTable" [currentPageReportTemplate]="messagePageReport"
+            styleClass="p-datatable-striped p-datatable-gridlines">
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th style="width: 6.25rem">
+                  Acesso
+                </th>
+                <th style="width: 6.25rem">Empresa Padrão</th>
+                <th *ngFor="let colsEmpresa of columns" [ngStyle]="{'min-width': colsEmpresa.width}">
+                  {{colsEmpresa.header}}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-columns="columns" let-empresa>
+              <tr [pSelectableRow]="rowData">
+                <td style="width: 6.25rem">
+                  <p-inputSwitch [(ngModel)]="empresa.empresasUsuario" id="1" [ngModelOptions]="{standalone: true}">
+                  </p-inputSwitch>
+                </td>
+                <td style="width: 6.25rem">
+                  <p-inputSwitch [(ngModel)]="empresa.empresaPadrao" binary="true"
+                    [disabled]="rowData.empresasUsuario === false || rowData.empresasUsuario === null || rowData.empresasUsuario === undefined"
+                    [ngModelOptions]="{standalone: true}"></p-inputSwitch>
+                </td>
+                <td *ngFor="let colsEmpresa of columns" [ngStyle]="{'min-width': colsEmpresa.width}"
+                  pTooltip="{{rowData[colsEmpresa.field]}}" tooltipPosition="top">
+                  {{rowData[colsEmpresa.field]}}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-tabPanel>
+      </p-tabView>
+      <div class="flex justify-content-center">
+        <div class="col-12 md:col-6 lg:col-4">
+          <button pButton pRipple type="submit" label="Salvar" icon="fas fa-save" [disabled]="f.invalid || salvando"
+            class="p-button-raised p-button-primary w-full"></button>
+        </div>
+      </div>
+      <div *ngIf="salvando" class="grid justify-content-center mt-4">
+        <div class="grid col-12 justify-content-center">
+          <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="8"
+            animationDuration=".5s">
+          </p-progressSpinner>
+        </div>
+        <div class="grid col-12 justify-content-center">
+          <h6>Salvando aguarde...</h6>
+        </div>
+      </div>
+    </form>
+  </p-card>
+</main>

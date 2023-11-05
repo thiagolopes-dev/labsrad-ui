@@ -4,10 +4,9 @@
     <div class="flex justify-content-between mb-2">
       <div class="flex justify-content-start mb-2">
         <div>
-          <!-- FIXME Colocar permissao -->
           <button pButton pRipple type="button" class="p-button-raised p-button-primary" icon="pi pi-plus"
             pTooltip="Novo" tooltipPosition="top" routerLink="/pacientes/novo"
-            ></button>
+            [disabled]="!auth.temPermissao('C_PCTE')"></button>
         </div>
         <div>
           <button pButton pRipple type="button" class="p-button-raised ml-2" pTooltip="Atualizar" tooltipPosition="top"
@@ -128,9 +127,8 @@
       <ng-template pTemplate="body" let-paciente let-columns="columns" let-rowData>
         <tr [pSelectableRow]="rowData">
           <td class="btnEditar">
-              <!-- FIXME Colocar permissao -->
             <button pButton pRipple type="button" class="p-button-text p-button-primary" icon="fas fa-pen"
-              pTooltip="Editar" tooltipPosition="top"
+              pTooltip="Editar" tooltipPosition="top" [disabled]="!auth.temPermissao('U_PCTE')"
               [routerLink]="['/pacientes', paciente.id]"></button>
           </td>
           <td *ngFor="let cols of columns" [ngStyle]="{'min-width': cols.width}" tooltipPosition="top"
@@ -168,7 +166,7 @@
 
       <ng-template pTemplate="emptymessage" let-columns>
         <tr>
-          <td colspan="10">
+          <td colspan="9">
             <p class="emptyMessage">Nenhum registro encontrado...</p>
           </td>
         </tr>

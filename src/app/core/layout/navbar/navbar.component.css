@@ -1,0 +1,307 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  outline: none;
+  z-index: 3;
+}
+
+header {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: 3.125rem;
+  background: #ffff;
+  justify-content: center;
+  align-items: center;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+img {
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -khtml-user-select: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+hr {
+  width: 100%;
+  border: 0.0625rem solid #00000026;
+  margin: 0.3125rem;
+}
+
+.perfil {
+  cursor: pointer;
+  position: absolute;
+  right: 0.1875rem;
+  font-weight: 600;
+}
+
+.sair {
+  position: absolute;
+  right: 1.25rem;
+  top: 0.5rem;
+}
+
+.notificacao {
+  cursor: pointer;
+  position: absolute;
+  right: 3.75rem;
+  top: 1.4375rem;
+}
+
+.menu {
+  cursor: pointer;
+  color: #212529;
+  ;
+  position: fixed;
+  margin-left: 1.25rem;
+  margin-top: 1rem;
+}
+
+.home {
+  cursor: pointer;
+  color: #212529;
+  position: fixed;
+  margin-left: 3.75rem;
+  margin-top: 0.9375rem;
+}
+
+.btnSenha {
+  color: #212529;
+  width: 100%;
+}
+
+.btnSair {
+  color: #212529;
+}
+
+.btnSair:hover {
+  background: none;
+}
+
+.logado {
+  font-family: "Roboto", sans-serif;
+  color: #212529;
+}
+
+.logo {
+  position: fixed;
+  width: 18.75rem;
+  top: 95%;
+  left: 0%;
+  z-index: 9999;
+}
+
+.distancia-icone {
+  margin-right: 0.4375rem;
+}
+
+.btn-perfil-config {
+  width: 100% !important;
+  height: 2.875rem !important;
+}
+
+.usuario {
+  font-weight: 600;
+  color: #545b62;
+  cursor: pointer;
+  user-select: none;
+}
+
+
+.p-button.btn-menu {
+  font-weight: 500;
+  color: #000000;
+  background: transparent;
+  width: 100%;
+  margin-bottom: 0.625rem;
+  text-align: left;
+  outline: none;
+  height: 1.875rem;
+}
+
+.p-button.btn-menu:hover {
+  background: #29d6b1;
+  /* color: #efefef; */
+}
+
+.p-button.btn-menu.ativo {
+  color: #fff;
+  background-color: #218c74;
+  border-radius: 0.625rem;
+  outline: none;
+}
+
+.p-button:disabled {
+  color: #f44336;
+  text-decoration: underline;
+}
+
+.p-button-label {
+  flex: 0 1 auto;
+}
+
+#linha-menu {
+  width: 90%;
+  border: 0.0625rem solid #dee2e673;
+  margin: 0.3125rem;
+}
+
+/* :host ::ng-deep .p-sidebar {
+  background: #787879;;
+} */
+
+:host ::ng-deep .p-accordion .p-accordion-content {
+  border: none;
+  background: transparent;
+}
+
+:host ::ng-deep .p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+  color: #545b62;
+  background: transparent;
+  border: none;
+}
+
+:host ::ng-deep .p-accordion .p-accordion-header .p-accordion-header-link {
+  color: #545b62;
+  background: transparent;
+  border: none;
+}
+
+:host ::ng-deep .p-accordion .p-accordion-header:not(.p-disabled) .p-accordion-header-link:focus {
+  box-shadow: none;
+}
+
+:host ::ng-deep .p-accordion .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link {
+  background: transparent;
+}
+
+:host ::ng-deep .p-overlay-badge .p-badge {
+  top: -0.1875rem;
+  right: -0.3125rem;
+}
+
+.versao {
+  position: fixed;
+  top: 96.9%;
+  left: 65%;
+  font-size: 0.75rem;
+  color: white;
+  font-weight: 500;
+  font-family: 'Roboto';
+}
+
+@media screen and (min-width: 1361px) {
+  .versao {
+    position: fixed;
+    top: 95.5% !important;
+    left: 13% !important;
+    color: white;
+    font-weight: 500;
+  }
+
+  .logo {
+    position: fixed;
+    top: 93%;
+    left: 1% !important;
+  }
+
+  /* :host
+    ::ng-deep
+    .p-accordion
+    .p-accordion-header:not(.p-disabled).p-highlight
+    .p-accordion-header-link {
+    background: #2d3436;
+    color: #16a085;
+    border: none;
+    margin-top: -48px;
+  } */
+}
+
+@media screen and (min-width: 666px) and (max-width: 1360px) {
+  .versao {
+    position: fixed;
+    top: 94.5% !important;
+    left: 18% !important;
+    color: white;
+    font-weight: 500;
+  }
+
+  .logo {
+    position: fixed;
+    top: 93%;
+    left: 0% !important;
+  }
+
+  .p-button-label-fontsize {
+    font-size: 0.9375rem !important;
+  }
+}
+
+@media screen and (max-width: 665px) {
+  .versao {
+    position: fixed;
+    top: 94.5% !important;
+    left: 36% !important;
+    color: white;
+    font-weight: 500;
+  }
+
+  .logo {
+    position: fixed;
+    top: 93%;
+    left: 0% !important;
+  }
+
+  .p-button-label-fontsize {
+    font-size: 0.9375rem !important;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .versao {
+    position: fixed;
+    top: 96.% !important;
+    left: 62% !important;
+    color: white;
+    font-weight: 500;
+  }
+
+  .logo {
+    z-index: 3;
+    width: 62%;
+    position: fixed;
+    top: 93%;
+    left: 0% !important;
+  }
+}
+
+.btnVisualizar {
+  width: 9.1875rem
+}
+
+:host ::ng-deep .p-button:disabled {
+  text-decoration: none;
+  cursor: not-allowed;
+}
+
+:host ::ng-deep .p-sidebar .p-sidebar-content {
+  padding: 0.3125rem;
+  margin-bottom: 40px;
+}
+:host ::ng-deep
+.p-avatar-group .p-avatar {
+  border: none;
+}

@@ -1,0 +1,53 @@
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+  <div class="flex flex-column align-items-center justify-content-center">
+    <div
+      style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, rgb(26 188 156) 10%, rgba(33, 150, 243, 0) 30%);">
+      <div class="w-24rem sm:w-12 md:w-12 lg:w-12 xl:w-12 surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+        <div class="text-center">
+          <div class="flex flex-wrap col-12 justify-content-center">
+            <img class="noselection  w-15rem"
+              src="assets/images/labsrad.png"
+              alt="Logo LabsRad" width="100px" />
+          </div>
+          <div class="flex col-12">
+            <span class="col-12 text-600 font-medium">Faça o login para continuar</span>
+          </div>
+        </div>
+
+        <div class="md:w-30rem widthLogin">
+          <form #formLogin="ngForm" (keyup.enter)="EnterSubmit($event, formLogin, email.value, senha.value)">
+
+            <div class="col-12">
+              <h6>E-mail</h6>
+              <input id="email" name="email" type="email" placeholder="Endereço de Email" pInputText [required]="true"
+                ngModel #email="ngModel" class="w-full">
+              <app-message [control]="email" error="required" text="Informe um e-mail!"></app-message>
+              <app-message [control]="email" error="email" text="Informe um e-mail válido"></app-message>
+            </div>
+
+            <div class="col-12">
+              <h6>Senha</h6>
+              <p-password styleClass="w-ful"  id="senha" [feedback]="false" name="senha" #senha="ngModel" placeholder="Senha"
+                [required]="true" strongLabel="Senha Forte" [toggleMask]="true"  ngModel></p-password>
+            </div>
+
+
+            <div class="col-12">
+              <div class=" col-12 flex align-items-center justify-content-end mb-3">
+                <a class="font-medium no-underline ml-2 text-right cursor-pointer" [routerLink]="['/forgot']">Esqueceu a
+                  senha?</a>
+              </div>
+              <button pButton pRipple label="Login" class="w-full text-xl" [disabled]="!formLogin.valid"
+                (click)="login(email.value, senha.value)"></button>
+            </div>
+
+            <div class="col-12">
+              <p-messages class="message-toast" [(value)]="messages" [enableService]="false"
+                [closable]="false"></p-messages>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

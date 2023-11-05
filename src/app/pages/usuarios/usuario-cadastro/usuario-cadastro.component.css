@@ -1,0 +1,25 @@
+.field-icon {
+  float: right;
+  left: -15px;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+
+}
+p {
+  font-family: Lato;
+}
+
+.ui-g {
+  display: flex;
+  flex-direction: row;
+}
+
+.w-30 {
+  width: 120px;
+}
+
+.w-10 {
+  width: 80px;
+}
+

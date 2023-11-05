@@ -1,0 +1,32 @@
+.background {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background: #1abc9c;
+}
+
+.field-icon {
+  float: right;
+  left: -15px;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+}
+
+.forgot {
+  color: #ced4da;
+  font-size: 0.75rem;
+}
+
+.label-login {
+  font-size: 0.8125rem;
+  font-family: 'Ubuntu', sans-serif;
+  color: #ffffff;
+  margin: 0rem;
+  margin-left: 0.9375rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

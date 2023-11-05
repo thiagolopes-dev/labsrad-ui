@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NaoAutorizadoComponent } from './core/layout/nao-autorizado/nao-autorizado.component';
+import { PaginaNaoEncontradaComponent } from './core/layout/pagina-nao-encontrada/pagina-nao-encontrada.component';
+import { AlterarSenhaComponent } from './pages/usuarios/alterar-senha/alterar-senha.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   {
     path: 'atendimentos' , loadChildren: () => 
     import('./pages/atendimentos/atendimentos.module').then(m => m.AtendimentosModule)
@@ -34,6 +38,13 @@ const routes: Routes = [
     path: 'usuarios', loadChildren: () =>
     import('./pages/usuarios/usuarios.module').then(m =>  m.UsuariosModule)
   },
+  { path: 'alterarsenha', component: AlterarSenhaComponent },
+
+  { path: 'nao-autorizado', component: NaoAutorizadoComponent },
+
+  { path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent },
+
+  { path: '**', redirectTo: 'pagina-nao-encontrada' }
 ];
 
 @NgModule({

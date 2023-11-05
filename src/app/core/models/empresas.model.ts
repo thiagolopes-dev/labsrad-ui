@@ -1,18 +1,24 @@
 export class Empresas {
-    id?: number;
-    cpfoucnpj?: string;
-    razaosocial?: string;
-    cidade?: string;
-    uf?: string;
-    cep?: string;
-    logradouro?: string;
-    bairro?: string;
-    numero?: string;
-    telefone?: string;
-    whats?: string;
-    email?: string;
-    status?: boolean;
-    empresapadrao?: boolean;
-    empresausuario?: boolean;
-    datagracavao?: Date; 
-}
+    id: number;
+    cidade: string;
+    razaosocial: string;
+    cpfoucnpj: string;
+    naturezapessoa: string;
+    uf: string;
+    cep: string;
+    logradouro: string;
+    numero: string;
+    complemento: string;
+    bairro: string;
+    nomecontato: string;
+    telefone: string;
+    whats: string;
+    email: string;
+    status: boolean;
+    valor: number;
+    empresapadrao: boolean;
+    empresasusuario: boolean;
+    datagravacao: Date;
+  }
+  
+  

@@ -1,3 +1,133 @@
-<p>
-  empresa-cadastro works!
-</p>
+<main>
+    <p-card styleClass="card-adjust p-mt-5 p-mx-3">
+        <h4>{{ editando ? 'EDIÇÃO DE' : 'CADASTRO DE'}} EMPRESA</h4>
+        <div class="flex justify-content-start mb-2">
+            <div>
+                <button pButton type="button" class="p-button-raised p-button-primary" icon="pi pi-angle-left"
+                    pTooltip="Voltar" tooltipPosition="right" routerLink="/empresas"></button>
+            </div>
+        </div>
+        <br>
+        <form #f="ngForm" autocomplete="off" (ngSubmit)="salvar(f)">
+            <div class="grid p-fluid">
+                <div class="col-12 md:col-6 lg:col-3">
+                    <h6><span class="obrigatorio">*</span>CNPJ</h6>
+                    <p-inputMask type="tel" name="cpfoucnpj" mask="99.999.999/9999-99" placeholder="00.000.000/0000-00"
+                        unmask="true" [disabled]="editando" (onBlur)="consultaCNPJ($event.target.value, f)"
+                        [(ngModel)]="empresas.cpfoucnpj" #cpfoucnpj="ngModel" required></p-inputMask>
+                    <app-message [control]="cpfoucnpj" error="required" text="Informe o documento"></app-message>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-3">
+                    <h6><span class="obrigatorio">*</span>Razão Social</h6>
+                    <input pInputText name="razaosocial" type="text" [pKeyFilter]="regex.stringNumber"
+                        [(ngModel)]="empresas.razaosocial" #razaosocial="ngModel" required maxlength="80" upperCase>
+                    <app-message [control]="razaosocial" error="required" text="Informe a razão social"></app-message>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-3">
+                    <h6><span class="obrigatorio">*</span>Cep</h6>
+                    <p-inputMask mask="99999-999" id="cep" name="cep" (onBlur)="consultaCEP($event.target.value, f)"
+                        [(ngModel)]="empresas.cep" #cep="ngModel" unmask="true" required></p-inputMask>
+                    <app-message [control]="cep" error="required" text="Informe o cep"></app-message>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-3">
+                    <h6><span class="obrigatorio">*</span>Logradouro</h6>
+                    <input pInputText id="logradouro" name="logradouro" type="text" [pKeyFilter]="regex.stringNumber"
+                        [(ngModel)]="empresas.logradouro" #logradouro="ngModel" required maxlength="80" upperCase>
+                    <app-message [control]="logradouro" error="required" text="Informe o logradouro"></app-message>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-3">
+                    <h6><span class="obrigatorio">*</span>Bairro</h6>
+                    <input pInputText name="bairro" type="text" [pKeyFilter]="regex.stringNumber"
+                        [(ngModel)]="empresas.bairro" #bairro="ngModel" required maxlength="30" upperCase>
+                    <app-message [control]="bairro" error="required" text="Informe o bairro"></app-message>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-3">
+                    <h6><span class="obrigatorio">*</span>Número</h6>
+                    <input pInputText name="numero" type="tel" [pKeyFilter]="regex.stringNumber"
+                        [(ngModel)]="empresas.numero" #numero="ngModel" maxlength="6" required upperCase>
+                    <app-message [control]="numero" error="required" text="Informe o número"></app-message>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-3">
+                    <h6>Complemento</h6>
+                    <input pInputText name="complemento" type="text" [pKeyFilter]="regex.stringNumber"
+                        [(ngModel)]="empresas.complemento" #complemento="ngModel" maxlength="30" upperCase>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-3">
+                    <h6><span class="obrigatorio">*</span>Estados</h6>
+                    <p-dropdown [options]="estados" [(ngModel)]="empresas.uf" #uf="ngModel" name="uf"
+                        placeholder="Selecione..." optionLabel="estado" optionValue="uf" filter="true"
+                        [virtualScroll]="true" (onChange)="validaEstado($event, f)" [itemSize]="31"
+                        filterBy="uf,estado"></p-dropdown>
+                    <app-message [control]="uf" error="required" text="Informe o estado"></app-message>
+
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-3">
+                    <h6><span class="obrigatorio">*</span>Cidades</h6>
+                    <p-dropdown [options]="cidadesFiltradas" [disabled]="!empresas.uf" [(ngModel)]="empresas.cidade"
+                        #cidade="ngModel" name="cidade" placeholder="Selecione..." optionLabel="CIDADE"
+                        optionValue="CIDADE" filter="true" [virtualScroll]="true" [itemSize]="31">
+                    </p-dropdown>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-3">
+                    <h6>Nome Contato</h6>
+                    <input pInputText name="nomecontato" type="text" [pKeyFilter]="regex.stringNumber"
+                        [(ngModel)]="empresas.nomecontato" #nomecontato="ngModel" upperCase>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-3">
+                    <h6>Telefone</h6>
+                    <p-inputMask mask="(99)9999-9999?9" name="telefone" type="tel" [(ngModel)]="empresas.telefone"
+                        #telefone="ngModel"></p-inputMask>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-3">
+                    <h6><span class="obrigatorio">*</span>WhatsApp</h6>
+                    <p-inputMask mask="(99)99999-9999" name="whats" type="tel" [(ngModel)]="empresas.whats"
+                        #whats="ngModel" required></p-inputMask>
+                    <app-message [control]="whats" error="required" text="Informe o whatsApp"></app-message>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-3">
+                    <h6>E-mail</h6>
+                    <input pInputText name="email" type="email" pKeyFilter="email" email maxlength="40"
+                        [(ngModel)]="empresas.email" #email="ngModel" email>
+                    <app-message [control]="email" error="email" text="Informe um e-mail válido"></app-message>
+                </div>
+            </div>
+            <div class="grid col-12 flex justify-content-center mt-2">
+                <h6>Status</h6>
+            </div>
+            <br>
+            <div class="grid col-12 flex justify-content-center">
+                <p-inputSwitch [(ngModel)]="empresas.status" [ngModelOptions]="{standalone: true}" binary="true">
+                </p-inputSwitch>
+            </div>
+            <br>
+            <div class="grid justify-content-center">
+                <div class="col-12 md:col-6 lg:col-4">
+                    <button pButton pRipple type="submit" label="Salvar" icon="pi pi-save"
+                        [disabled]="f.invalid || salvando" class="p-button-raised p-button-primary w-full"></button>
+                </div>
+            </div>
+            <div *ngIf="salvando" class="grid justify-content-center mt-4">
+                <div class="grid col-12 justify-content-center">
+                    <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner"
+                        strokeWidth="8" animationDuration=".5s">
+                    </p-progressSpinner>
+                </div>
+                <div class="grid col-12 justify-content-center">
+                    <h6>Salvando aguarde...</h6>
+                </div>
+            </div>
+        </form>
+    </p-card>
+</main>

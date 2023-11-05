@@ -4,13 +4,13 @@ import localePt from '@angular/common/locales/pt';
 import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { IConfig, NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { IConfig, provideNgxMask } from 'ngx-mask';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { DashboardsModule } from './pages/dashboards/dashboard.module';
-import { PrimeNGModule } from './primeng.module';
+import { SegurancaModule } from './pages/seguranca/seguranca.module';
 import { SharedModule } from './shared/shared.module';
 
 registerLocaleData(localePt, 'pt');
@@ -26,14 +26,12 @@ export const maskConfig: Partial<IConfig> = {
   ],
   imports: [
     BrowserModule,
-    CoreModule,
-    NgxMaskDirective,
-    NgxMaskPipe,
     BrowserAnimationsModule,
     HttpClientModule,
-    AppRoutingModule,
+    CoreModule,
+    SegurancaModule,
     DashboardsModule,
-    PrimeNGModule,
+    AppRoutingModule,
     NgxSpinnerModule,
     SharedModule
   ],

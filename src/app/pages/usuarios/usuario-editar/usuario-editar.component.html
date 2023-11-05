@@ -1,0 +1,129 @@
+<main>
+  <p-card styleClass="card-adjust p-mt-5 p-mx-3">
+    <h4>EDIÇÃO DE USUÁRIO</h4>
+    <div class="p-d-flex p-jc-left p-mb-2">
+      <div>
+        <button pButton pRipple type="button" class="p-button-raised" icon="pi pi-angle-left" pTooltip="Voltar"
+          tooltipPosition="right" routerLink="/usuarios"></button>
+      </div>
+    </div>
+    <br>
+    <form #f="ngForm" autocomplete="off" (ngSubmit)="salvar(f)">
+      <p-tabView styleClass="tabview-custom">
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <i class="pi pi-id-card" style="margin-right: 0.3125rem;"></i>
+            <span>Info</span>
+          </ng-template>
+          <div class="grid">
+            <div class="col-12 md:col-6 lg:col-3">
+              <h6><span class="obrigatorio">*</span>Nome</h6>
+              <input pInputText name="nome" inputmode="text" [pKeyFilter]="regex.string" [(ngModel)]="usuario.nome"
+                #nome="ngModel" maxlength="30" required upperCase>
+              <app-message [control]="nome" error="required" text="Informe o nome"></app-message>
+            </div>
+            <div class="col-12 md:col-6 lg:col-3">
+              <h6><span class="obrigatorio">*</span>E-mail</h6>
+              <input pInputText name="email" type="email" pKeyFilter="email" email maxlength="40" [disabled]="editando"
+                [(ngModel)]="usuario.email" #email="ngModel" required email>
+              <app-message [control]="email" error="required" text="Informe um e-mail!"></app-message>
+              <app-message [control]="email" error="email" text="Informe um e-mail válido"></app-message>
+            </div>
+          </div>
+          <div class="flex justify-content-center flex-wrap card-container yellow-container">
+            <div class="flex flex-column flex align-items-center justify-content-center">
+              <div>
+                <h6>Status</h6>
+              </div>
+              <div>
+                <p-inputSwitch [(ngModel)]="usuario.status" [ngModelOptions]="{standalone: true}" binary="true">
+                </p-inputSwitch>
+              </div>
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <i class="fas fa-clipboard-list" style="margin-right: 0.3125rem;"></i>
+            <span>Permissões</span>
+          </ng-template>
+          <div>
+            <p-tree [value]="permission" [filter]="true" selectionMode="checkbox" [(selection)]="selectedPermission">
+            </p-tree>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <i class="pi pi-briefcase" style="margin-right: 5px;"></i>
+            <span>Empresas</span>
+          </ng-template>
+
+          <p-table [columns]="colsEmpresa" [value]="empresas" styleClass="p-datatable-striped p-datatable-gridlines"
+            [rows]="15" paginator="true" [scrollable]="true" [rowsPerPageOptions]="rowsPerPageTable"
+            [currentPageReportTemplate]="messagePageReport">
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th style="width: 6.25rem;">
+                  Acesso
+                </th>
+                <th style="width: 6.25rem;">Empresa Padrão</th>
+                <th *ngFor="let colsEmpresa of columns" [ngStyle]="{'min-width': colsEmpresa.width}" pReorderableColumn>
+                  {{colsEmpresa.header}}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-columns="columns" let-empresa>
+              <tr [pSelectableRow]="rowData">
+                <td style="width: 6.25rem;">
+                  <span class="p-column-title">Empresa Acesso:</span>
+                  <p-inputSwitch [(ngModel)]="empresa.empresasusuario" id="1" [ngModelOptions]="{standalone: true}">
+                  </p-inputSwitch>
+                </td>
+                <td style="width: 6.25rem;">
+                  <span class="p-column-title">Empresa Padrão:</span>
+                  <p-inputSwitch [(ngModel)]="empresa.empresapadrao" binary="true"
+                    [disabled]="rowData.empresasusuario === false || rowData.empresasusuario === null || rowData.empresasusuario === undefined"
+                    [ngModelOptions]="{standalone: true}"></p-inputSwitch>
+                </td>
+                <td *ngFor="let colsEmpresa of columns" [ngStyle]="{'min-width': colsEmpresa.width}" pReorderableColumn
+                  pTooltip="{{rowData[colsEmpresa.field]}}" tooltipPosition="top">
+                  <span class="p-column-title">{{colsEmpresa.header}}:</span>
+                  {{ colsEmpresa.data ? (rowData[colsEmpresa.field]| date :
+                  colsEmpresa.format) : rowData[colsEmpresa.field]}}
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+              <tr>
+                <td>
+                  <p class="emptyMessage">Nenhum registro encontrado...</p>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-tabPanel>
+      </p-tabView>
+      <div class="flex justify-content-center">
+        <div class="col-12 md:col-6 lg:col-4">
+          <button pButton pRipple type="submit" label="Salvar" icon="fas fa-save" [disabled]="f.invalid || salvando"
+            class="p-button-raised p-button-success w-full"></button>
+        </div>
+        <!-- <div class="col-12 md:col-6 lg:col-3">
+            <button pButton pRipple type="button" class="p-button-outlined p-button-danger w-full" icon="fas fa-trash"
+                pTooltip="Excluir" tooltipPosition="top" [disabled]="!auth.temPermissao('D_USER')"
+                (click)="confirmarExclusao()" label="Excluir"></button>
+          </div> -->
+      </div>
+      <div *ngIf="salvando" class="grid justify-content-center mt-4">
+        <div class="grid col-12 justify-content-center">
+          <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="8"
+            animationDuration=".5s">
+          </p-progressSpinner>
+        </div>
+        <div class="grid col-12 justify-content-center">
+          <h6>Salvando aguarde...</h6>
+        </div>
+      </div>
+    </form>
+  </p-card>
+</main>

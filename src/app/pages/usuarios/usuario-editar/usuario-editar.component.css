@@ -1,0 +1,17 @@
+p {
+  font-family: Lato;
+}
+
+.ui-g {
+  display: flex;
+  flex-direction: row;
+}
+
+.w-30 {
+  width: 120px;
+}
+
+.w-10 {
+  width: 80px;
+}
+

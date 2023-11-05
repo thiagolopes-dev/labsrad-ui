@@ -7,7 +7,9 @@ import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
 import { FiltroPacienteService } from 'src/app/core/services/filtros/filtro-paciente.service';
 
+import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { FiltrosPacientes } from 'src/app/core/models/filtro.model';
+import { AuthService } from '../../seguranca/auth.service';
 import { PacientesService } from './../pacientes.service';
 
 
@@ -58,9 +60,9 @@ export class PacientesListaComponent implements OnInit {
   constructor(
     private title: Title,
     private pacService: PacientesService,
-    // public auth: AuthService,
+    public auth: AuthService,
     private conf: PrimeNGConfig,
-    // private errorHandler: ErrorHandlerService,
+    private errorHandler: ErrorHandlerService,
     private spinner: NgxSpinnerService,
     private filtroPaciente: FiltroPacienteService
   ) { }
@@ -138,8 +140,7 @@ export class PacientesListaComponent implements OnInit {
       })
       .catch((erro) => {
         this.spinner.hide();
-        // FIXME retornar error
-        // this.errorHandler.handle(erro);
+        this.errorHandler.handle(erro);
       });
   }
 
@@ -223,8 +224,7 @@ export class PacientesListaComponent implements OnInit {
       }).catch((erro) => {
         this.spinner.hide();
         this.btnBlock();
-        // FIXME retornar erro
-      //  this.errorHandler.handle(erro);
+        this.errorHandler.handle(erro);
       });
     }
   }

@@ -1,0 +1,111 @@
+<header>
+  <img [src]="logo" height="45" alt="Logo LabsRad" routerLink="/" />
+  <p-avatarGroup class="perfil">
+    <p-avatar icon="pi pi-user" styleClass="p-mr-2" pTooltip="Perfil" tooltipPosition="left"
+      [style]="{ 'background-color': '#00a185', color: '#ffffff' }" (click)="userdetails.toggle($event)" shape="circle">
+    </p-avatar>
+  </p-avatarGroup>
+</header>
+<div class="menu" (click)="menu = true" pTooltip="Menu" tooltipPosition="bottom">
+  <i class="pi pi-bars text-black-alpha-90" style="font-size: 18px; color: white;"></i>
+</div>
+<div class="home" routerLink="/" pTooltip="Início" tooltipPosition="bottom">
+  <i class="pi pi-home text-black-alpha-90" style="font-size: 20px; color: white;"></i>
+</div>
+
+<p-sidebar [(visible)]="menu" [baseZIndex]="10000">
+  <br />
+  <br />
+
+  <div class="div-sidebar">
+    <button pButton type="button" class="p-button-text btn-sidebar-width alias" tooltipPosition="right"
+      (click)="showEmpresas()">
+      <i style="color: rgb(133, 130, 130)" class="pi pi-external-link"></i>
+      <span  class="ml-2 p-text-nowrap p-text-truncate" pTooltip="{{razaosocial}}"
+        tooltipPosition="right"> {{idEmpresaativa}}- {{razaosocial}}</span>
+    </button>
+  </div>
+
+  <p-accordion styleClass="mt-3">
+
+    <button pButton type="button" class="ui-button-rounded btn-menu" routerLinkActive="ativo"
+      icon="fas fa-clipboard-check" (click)="menu = false" [disabled]="!auth.temPermissao('R_ATEND')" label="Empresas"
+      routerLink="/empresas"></button>
+
+    <button pButton type="button" class="ui-button-rounded btn-menu" routerLinkActive="ativo" icon="fas fa-users-cog"
+      (click)="menu = false" [disabled]="!auth.temPermissao('R_USU')" label="Usuários" routerLink="/usuarios"></button>
+
+    <button pButton type="button" class="ui-button-rounded btn-menu" routerLinkActive="ativo"
+      icon="fas fa-clipboard-list" (click)="menu = false" [disabled]="!auth.temPermissao('R_CONV')" label="Convênios"
+      routerLink="/convenios"></button>
+
+    <button pButton type="button" class="ui-button-rounded btn-menu" routerLinkActive="ativo"
+      icon="fas fa-notes-medical" (click)="menu = false" [disabled]="!auth.temPermissao('R_EXME')" label="Exames"
+      routerLink="/exames"></button>
+
+    <button pButton type="button" class="ui-button-rounded btn-menu" routerLinkActive="ativo"
+      icon="fas fa-hospital-user" (click)="menu = false" [disabled]="!auth.temPermissao('R_PCTE')" label="Pacientes"
+      routerLink="/pacientes"></button>
+
+    <button pButton type="button" class="ui-button-rounded btn-menu" routerLinkActive="ativo"
+      icon="fas fa-clipboard-check" (click)="menu = false" [disabled]="!auth.temPermissao('R_ATEND')"
+      label="Atendimentos" routerLink="/atendimentos"></button>
+
+    <button pButton type="button" class="ui-button-rounded btn-menu" routerLinkActive="ativo"
+      icon="fas fa-clipboard-check" (click)="menu = false" [disabled]="!auth.temPermissao('R_PAT')" label="Patrimônios"
+      routerLink="/patrimonios"></button>
+
+
+    <button pButton type="button" class="ui-button-rounded btn-menu" routerLinkActive="ativo" icon="fas fa-chart-line"
+      (click)="menu = false" [disabled]="!auth.temPermissao('R_REL')" label="Relatórios"
+      routerLink="/relatorios"></button>
+
+  </p-accordion>
+
+  <div class="logo">
+    <a class="cursor-pointer" href="https://labsdev.com.br" target="_blank">
+      <img [src]="logoDescricao" height="45" alt="Logo LabsDev"></a>
+  </div>
+  <div>
+    <h1 class="versao">versão: {{env.version}}</h1>
+  </div>
+</p-sidebar>
+
+<p-overlayPanel #userdetails>
+  <div class="logado">
+    <span>Logado:</span>
+    <p>{{ auth.jwtPayload?.user_name }}</p>
+    <br />
+  </div>
+  <button pButton class="p-button-text btnSenha" icon="fas fa-lock" label="Alterar Senha"
+    routerLink="/alterarsenha"></button>
+  <button pButton class="p-button-text btnSenha" icon="pi pi-chevron-right" label="Sair"
+    (click)="confirmarLogout(sair)"></button>
+</p-overlayPanel>
+
+<!-- DIALOG DE ESCOLHA DE EMPRESAS -->
+<p-dialog header="Empresas" styleClass="mydialog" [(visible)]="displayEmpresas" [modal]="true" [draggable]="false"
+  [resizable]="false">
+  <p-table [columns]="colsEmpresa" [value]="empresas" [loading]="loading" responsive="true">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th></th>
+        <th *ngFor="let col of columns">
+          {{ col.header }}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-empresa>
+      <tr>
+        <td>
+          <button pButton pRipple type="button" label="Selecionar" (click)="selecionaEmpresa(empresa.id)"></button>
+        </td>
+        <td *ngFor="let col of columns">
+          <span class="p-column-title">{{col.header}}:</span>
+          {{ rowData[col.field] }}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <ng-template pTemplate="footer"> </ng-template>
+</p-dialog>
