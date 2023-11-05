@@ -1,3 +1,117 @@
-<p>
-  principal works!
-</p>
+<main>
+  <p-card styleClass="card-adjust p-mt-5 p-mx-3">
+    <h4>Relatórios</h4>
+
+    <p-accordion>
+      <p-accordionTab header="Atendimentos Filtro">
+        <form #atendFiltro="ngForm" autocomplete="off" (ngSubmit)="gerarAtendimentoFiltro()">
+          <div class="grid p-fluid p-justify-center">
+            <div class="col-12 md:col-6 lg:col-3">
+              <h6>Data Início</h6>
+              <p-calendar name="dataInicio" showButtonBar="true" [monthNavigator]="true" [(ngModel)]="dataInicio"
+                [yearNavigator]="true" yearRange="1910:2030" dateFormat="dd/mm/yy" [showIcon]="true"
+                required></p-calendar>
+              <h6>Data Fim</h6>
+              <p-calendar name="dataFim" showButtonBar="true" [monthNavigator]="true" [(ngModel)]="dataFim"
+                [yearNavigator]="true" yearRange="1910:2030" dateFormat="dd/mm/yy" [showIcon]="true"
+                required></p-calendar>
+            </div>
+          </div>
+          <div class="grid p-fluid p-justify-center">
+            <div class="col-12 md:col-6 lg:col-3">
+              <button pButton pRipple class="p-button-raised p-button-primary" type="submit" label="Gerar Relatório"
+                [disabled]="atendFiltro.invalid"></button>
+            </div>
+          </div>
+        </form>
+      </p-accordionTab>
+
+      <p-accordionTab header="Atendimentos Mensal x Usuário">
+        <form #atendMensalUser="ngForm" autocomplete="off" (ngSubmit)="gerarMensalUsuario()">
+          <div class="grid p-fluid p-justify-center">
+            <div class="col-12 md:col-6 lg:col-3">
+              <p-dropdown [options]="meses" [(ngModel)]="mes1" name="mes1" placeholder="Escolha um Mes"
+                [showClear]="true" required></p-dropdown>
+            </div>
+            <div class="col-12 md:col-6 lg:col-3">
+              <p-dropdown [options]="anos" [(ngModel)]="ano1" name="ano1" placeholder="Escolha um Ano"
+                [showClear]="true" required></p-dropdown>
+            </div>
+            <div class="col-12 md:col-6 lg:col-3">
+              <p-dropdown [options]="usuarios" [(ngModel)]="usuario" name="usuario" placeholder="Escolha um Usuário"
+                [showClear]="true" required></p-dropdown>
+            </div>
+          </div>
+          <div class="grid p-fluid p-justify-center">
+            <div class="col-12 md:col-6 lg:col-3">
+              <button pButton pRipple class="p-button-raised p-button-primary" type="submit" label="Gerar Relatório"
+                [disabled]="atendMensalUser.invalid"></button>
+            </div>
+          </div>
+        </form>
+      </p-accordionTab>
+
+
+      <p-accordionTab header="Atendimentos Mensal">
+        <form #atendMensal="ngForm" autocomplete="off" (ngSubmit)="gerarMensal()">
+          <div class="grid p-fluid p-justify-center">
+            <div class="col-12 md:col-6 lg:col-3">
+              <p-dropdown [options]="meses" [(ngModel)]="mes" name="mes" placeholder="Escolha um Mes" [showClear]="true"
+                required></p-dropdown>
+            </div>
+            <div class="col-12 md:col-6 lg:col-3">
+              <p-dropdown [options]="anos" [(ngModel)]="ano" name="ano" placeholder="Escolha um Ano" [showClear]="true"
+                required></p-dropdown>
+            </div>
+          </div>
+          <div class="grid p-fluid p-justify-center">
+            <div class="col-12 md:col-6 lg:col-3">
+              <button pButton pRipple type="submit" class="p-button-raised p-button-primary" label="Gerar Relatório"
+                [disabled]="atendMensal.invalid"></button>
+            </div>
+          </div>
+        </form>
+      </p-accordionTab>
+
+      <p-accordionTab header="Atendimentos Mensal por Convênio">
+        <form #atendMensalConv="ngForm" autocomplete="off" (ngSubmit)="gerarMensalConvenio()">
+          <div class="grid p-fluid p-justify-center">
+            <div class="col-12 md:col-6 lg:col-3">
+              <p-dropdown [options]="meses" [(ngModel)]="mes" name="mes" placeholder="Escolha um Mes" [showClear]="true"
+                required></p-dropdown>
+            </div>
+            <div class="col-12 md:col-6 lg:col-3">
+              <p-dropdown [options]="anos" [(ngModel)]="ano" name="ano" placeholder="Escolha um Ano" [showClear]="true"
+                required></p-dropdown>
+            </div>
+            <div class="col-12 md:col-6 lg:col-3">
+              <p-dropdown [options]="convenios" [(ngModel)]="convenio" name="convenio" placeholder="Escolha um Convênio"
+                [showClear]="true" required></p-dropdown>
+            </div>
+          </div>
+          <div class="grid p-fluid p-justify-center">
+            <div class="col-12 md:col-6 lg:col-3">
+              <button pButton pRipple type="submit" class="p-button-raised p-button-primary" label="Gerar Relatório"
+                [disabled]="atendMensal.invalid"></button>
+            </div>
+          </div>
+        </form>
+      </p-accordionTab>
+
+      <p-accordionTab header="Convênios">
+        <button pButton pRipple label="Gerar Relatório" (click)="gerarConvenios()"
+          class="p-button-raised p-button-primary"></button>
+      </p-accordionTab>
+
+      <p-accordionTab header="Exames">
+        <button pButton pRipple label="Gerar Relatório" (click)="gerarExames()"
+          class="p-button-raised p-button-primary"></button>
+      </p-accordionTab>
+
+      <p-accordionTab header="Usuários">
+        <button pButton pRipple label="Gerar Relatório" (click)="gerarUsuarios()"
+          class="p-button-raised p-button-primary"></button>
+      </p-accordionTab>
+    </p-accordion>
+  </p-card>
+</main>
