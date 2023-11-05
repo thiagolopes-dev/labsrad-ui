@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PacienteCadastroComponent } from './paciente-cadastro/paciente-cadastro.component';
 import { PacientesListaComponent } from './pacientes-lista/pacientes-lista.component';
 
+
 const routes: Routes = [
 
   {

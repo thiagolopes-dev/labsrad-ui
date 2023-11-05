@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
-import { PrimeNGModule } from 'src/app/primeng.module';
+import { PrimeNGModule } from './../../primeng.module';
 
-import { ChartModule } from 'primeng/chart';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DashboardsRountingModule } from './dashboard.routing';
 import { PrincipalComponent } from './principal/principal.component';
@@ -14,8 +13,7 @@ import { PrincipalComponent } from './principal/principal.component';
   imports: [
     PrimeNGModule,
     DashboardsRountingModule,
-    SharedModule,
-    ChartModule
+    SharedModule
   ]
 })
 export class DashboardsModule { }

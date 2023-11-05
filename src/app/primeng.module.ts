@@ -6,6 +6,8 @@ import { CardModule } from 'primeng/card';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { KeyFilterModule } from 'primeng/keyfilter';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { PaginatorModule } from 'primeng/paginator';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { TableModule } from 'primeng/table';
@@ -23,7 +25,9 @@ import { TooltipModule } from 'primeng/tooltip';
         InputSwitchModule,
         KeyFilterModule,
         SplitButtonModule,
-        TableModule
+        TableModule,
+        OverlayPanelModule,
+        PaginatorModule
     ]
 })
 export class PrimeNGModule{}
