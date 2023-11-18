@@ -31,7 +31,7 @@ export class AuthService {
 
   login(usuario: string, senha: string): Promise<void> {
     const headers = new HttpHeaders()
-      .set('Authorization', 'Basic dW5pcmFkOiNTRVJWRVJAdW5pcmFkMjI=')
+      .set('Authorization', 'Basic bGFic3JhZDojU0VSVkVSQGxhYnNyYWQ=')
       .set('Content-Type', 'application/x-www-form-urlencoded');
 
     const body = `username=${usuario}&password=${senha}&grant_type=password`;
@@ -119,7 +119,7 @@ export class AuthService {
 
   obterNovoAccessToken(): Promise<void> {
     const headers = new HttpHeaders()
-      .set('Authorization', 'Basic dW5pcmFkOiNTRVJWRVJAdW5pcmFkMjI=')
+      .set('Authorization', 'Basic bGFic3JhZDojU0VSVkVSQGxhYnNyYWQ=')
       .set('Content-Type', 'application/x-www-form-urlencoded');
 
     const body = 'grant_type=refresh_token';
