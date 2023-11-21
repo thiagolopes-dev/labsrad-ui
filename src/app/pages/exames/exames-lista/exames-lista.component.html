@@ -46,12 +46,14 @@
       </ng-template>
       <ng-template pTemplate="body" let-exame let-columns="columns" let-rowData>
         <tr [pSelectableRow]="rowData">
-          <td class="btnEditar">
-            <button pButton pRipple type="button" class="p-button-text p-button-primary" icon="fas fa-pen"
+          <td class="btnAcoes">
+            <button pButton pRipple type="button" class="p-button-raised p-button-primary" 
+            icon="pi pi-pencil"
               pTooltip="Editar" tooltipPosition="top" [disabled]="!auth.temPermissao('U_EXME')"
               [routerLink]="['/exames', exame.id]"></button>
 
-            <button pButton pRipple type="button" class="p-button-text p-button-primary ml-2 " icon="fas fa-search"
+            <button pButton pRipple type="button" class="p-button-raised p-button-primary ml-2 "
+             icon="pi pi-search"
               pTooltip="Convênios" tooltipPosition="top" (click)="showConvenios(exame.id)"></button>
           </td>
           <td *ngFor="let cols of columns" [ngStyle]="{'min-width': cols.width}" tooltipPosition="top"
