@@ -48,7 +48,7 @@
         <ng-template pTemplate="body" let-convenio let-columns="columns" let-rowData>
           <tr [pSelectableRow]="rowData">
             <td class="btnEditar">
-              <button pButton pRipple type="button" class="p-button-raised p-button-primary" pTooltip="Editar"
+              <button pButton pRipple type="button" class="p-button-text p-button-primary" pTooltip="Editar"
                 icon="pi pi-pencil" tooltipPosition="top" [routerLink]="['/convenios', convenio.id]">
               </button>
             </td>

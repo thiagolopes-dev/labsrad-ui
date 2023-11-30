@@ -1,5 +1,11 @@
 <main>
-  <p-card styleClass="card-adjust p-mt-5 p-mx-3">
-    <h1>Dashboard</h1>
+  <p-card styleClass="card-adjust">
+
+    <div>
+      <div class="disabled-codigo">
+        <span>&nbsp;</span>
+      </div>
+      <iframe class="metabase" [src]="urlMetabase" frameborder="0"></iframe>
+    </div>
   </p-card>
 </main>
