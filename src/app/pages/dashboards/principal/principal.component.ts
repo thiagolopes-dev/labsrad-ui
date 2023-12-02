@@ -19,7 +19,7 @@ export class PrincipalComponent implements OnInit {
       );
     } else {
       this.urlMetabase = this.sanitizer.bypassSecurityTrustResourceUrl(
-        `http://localhost:3000/public/dashboard/b078ded4-9052-4091-952c-1f9d3cb4fefc`,
+        `http://localhost:3000/public/dashboard/3098c639-07f1-434d-878b-228615e51deb`,
       );
     }
   }
